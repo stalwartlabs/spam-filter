@@ -1,0 +1,186 @@
+[spam-filter.dnsbl.server.ip-spamhaus]
+enable = true
+url = "ip_reverse + '.zen.spamhaus.org'"
+tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
+        { if = "octets[3] == 2 && location == 'tcp'", then = "'RBL_SPAMHAUS_SBL'" },
+        { if = "octets[3] == 2", then = "'RECEIVED_SPAMHAUS_SBL'" },
+        { if = "octets[3] == 3 && location == 'tcp'", then = "'RBL_SPAMHAUS_CSS'" },
+        { if = "octets[3] == 3", then = "'RECEIVED_SPAMHAUS_CSS'" },
+        { if = "octets[3] >= 4 && octets[3] <= 7 && location == 'tcp'", then = "'RBL_SPAMHAUS_XBL'" },
+        { if = "octets[3] >= 4 && octets[3] <= 7", then = "'RECEIVED_SPAMHAUS_XBL'" },
+        { if = "octets[3] == 9 && location == 'tcp'", then = "'RBL_SPAMHAUS_DROP'" },
+        { if = "octets[3] == 9", then = "'RECEIVED_SPAMHAUS_DROP'" },
+        { if = "(octets[3] == 10 || octets[3] == 11) && location == 'tcp'", then = "'RBL_SPAMHAUS_PBL'" },
+        { if = "octets[3] == 10 || octets[3] == 11", then = "'RECEIVED_SPAMHAUS_PBL'" },
+        { if = "octets[3] == 254 && location == 'tcp'", then = "'RBL_SPAMHAUS_BLOCKED_OPENRESOLVER'" },
+        { if = "octets[3] == 254", then = "'RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER'" },
+        { if = "octets[3] == 255 && location == 'tcp'", then = "'RBL_SPAMHAUS_BLOCKED'" },
+        { if = "octets[3] == 255", then = "'RECEIVED_SPAMHAUS_BLOCKED'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-mailspike]
+enable = true
+url = [ { if = "location == 'tcp'", then = "ip_reverse + '.rep.mailspike.net'" },
+		{ else = false } ]
+tag = [ { if = "ip == '127.0.0.10'", then = "'RBL_MAILSPIKE_WORST'" },
+        { if = "ip == '127.0.0.11'", then = "'RBL_MAILSPIKE_VERYBAD'" },
+        { if = "ip == '127.0.0.12'", then = "'RBL_MAILSPIKE_BAD'" },
+        { if = "octets[0] == 127 && octets[3] >= 13 && octets[3] <= 16", then = "'RWL_MAILSPIKE_NEUTRAL'" },
+        { if = "ip == '127.0.0.17'", then = "'RWL_MAILSPIKE_POSSIBLE'" },
+        { if = "ip == '127.0.0.18'", then = "'RWL_MAILSPIKE_GOOD'" },
+        { if = "ip == '127.0.0.19'", then = "'RWL_MAILSPIKE_VERYGOOD'" },
+        { if = "ip == '127.0.0.20'", then = "'RWL_MAILSPIKE_EXCELLENT'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-senderscore]
+enable = true
+url = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
+		{ else = false } ]
+tag = [ { if = "!is_empty(ip)", then = "'RBL_SENDERSCORE'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-sem]
+enable = true
+url = [ { if = "location == 'tcp' && is_v4", then = "ip_reverse + '.bl.spameatingmonkey.net'" },
+        { if = "location == 'tcp' && is_v6", then = "ip_reverse + '.bl.ipv6.spameatingmonkey.net'" },
+		{ else = false } ]
+tag = [ { if = "!is_empty(ip)", then = "'RBL_SEM'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-virusfree]
+enable = true
+url = [ { if = "location == 'tcp'", then = "ip_reverse + '.bip.virusfree.cz'" },
+		{ else = false } ]
+tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_VIRUSFREE_BOTNET'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-nix]
+enable = true
+url = [ { if = "location == 'tcp'", then = "ip_reverse + '.ix.dnsbl.manitu.net'" },
+		{ else = false } ]
+tag = [ { if = "!is_empty(ip)", then = "'RBL_NIXSPAM'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-spamcop]
+enable = true
+url = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.spamcop.net'" },
+		{ else = false } ]
+tag = [ { if = "!is_empty(ip)", then = "'RBL_SPAMCOP'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-barracuda]
+enable = true
+url = [ { if = "location == 'tcp'", then = "ip_reverse + '.b.barracudacentral.org'" },
+		{ else = false } ]
+tag = [ { if = "!is_empty(ip)", then = "'RBL_BARRACUDA'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.ip-blocklist]
+enable = true
+url = "ip_reverse + '.bl.blocklist.de'"
+tag = [ { if = "!is_empty(ip) && location == 'tcp'", then = "'RBL_BLOCKLISTDE'" },
+        { if = "!is_empty(ip)", then = "'RECEIVED_BLOCKLISTDE'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.dnswl]
+enable = true
+url = "ip_reverse + '.list.dnswl.org'"
+tag = [ { if = "octets[0] == 127 && octets[3] == 0", then = "'RCVD_IN_DNSWL_NONE'" },
+        { if = "octets[0] == 127 && octets[3] == 1", then = "'RCVD_IN_DNSWL_LOW'" },
+        { if = "octets[0] == 127 && octets[3] == 2", then = "'RCVD_IN_DNSWL_MED'" },
+        { if = "octets[0] == 127 && octets[3] == 3", then = "'RCVD_IN_DNSWL_HI'" },
+        { if = "octets[0] == 127 && octets[3] == 255", then = "'DNSWL_BLOCKED'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.domain-spamhaus]
+enable = true
+url = "value + '.dbl.spamhaus.org'"
+tag = [ { if = "ip == '127.0.0.2'", then = "'DBL_SPAM'" },
+        { if = "ip == '127.0.0.4'", then = "'DBL_PHISH'" },
+        { if = "ip == '127.0.0.5'", then = "'DBL_MALWARE'" },
+        { if = "ip == '127.0.0.6'", then = "'DBL_BOTNET'" },
+        { if = "ip == '127.0.0.102'", then = "'DBL_ABUSE'" },
+        { if = "ip == '127.0.0.103'", then = "'DBL_ABUSE_REDIR'" },
+        { if = "ip == '127.0.0.104'", then = "'DBL_ABUSE_PHISH'" },
+        { if = "ip == '127.0.0.105'", then = "'DBL_ABUSE_MALWARE'" },
+        { if = "ip == '127.0.0.106'", then = "'DBL_ABUSE_BOTNET'" },
+        { if = "ip == '127.0.0.254'", then = "'DBL_BLOCKED_OPENRESOLVER'" },
+        { if = "ip == '127.0.0.255'", then = "'DBL_BLOCKED'" },
+		{ else = false } ]
+scope = "domain"
+
+[spam-filter.dnsbl.server.domain-surbl]
+enable = true
+url = "value + '.multi.surbl.org'"
+tag = [ { if = "ip == '127.0.0.128'", then = "'CRACKED_SURBL'" },
+        { if = "ip == '127.0.0.64'", then = "'ABUSE_SURBL'" },
+        { if = "ip == '127.0.0.18'", then = "'MW_SURBL_MULTI'" },
+        { if = "ip == '127.0.0.8'", then = "'PH_SURBL_MULTI'" },
+        { if = "ip == '127.0.0.1'", then = "'SURBL_BLOCKED'" },
+		{ else = false } ]
+scope = "domain"
+
+[spam-filter.dnsbl.server.domain-uribl]
+enable = true
+url = "value + '.multi.uribl.com'"
+tag = [ { if = "ip == '127.0.0.1'", then = "'URIBL_BLOCKED'" },
+        { if = "ip == '127.0.0.2'", then = "'URIBL_BLACK'" },
+        { if = "ip == '127.0.0.4'", then = "'URIBL_GREY'" },
+        { if = "ip == '127.0.0.8'", then = "'URIBL_RED'" },
+		{ else = false } ]
+scope = "domain"
+
+[spam-filter.dnsbl.server.domain-sem]
+enable = true
+url = "value + '.uribl.spameatingmonkey.net'"
+tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL'" },
+		{ else = false } ]
+scope = "domain"
+
+[spam-filter.dnsbl.server.domain-fresh15]
+enable = true
+url = "value + '.fresh15.spameatingmonkey.net'"
+tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL_FRESH15'" },
+		{ else = false } ]
+scope = "domain"
+
+[spam-filter.dnsbl.server.domain-dnswl]
+enable = true
+url = [ { if = "location == 'dkim_pass'", then = "value + ''.dwl.dnswl.org'" },
+		{ else = false } ]
+tag = [ { if = "octets[0] == 127 && octets[3] == 0", then = "'DWL_DNSWL_NONE'" },
+        { if = "octets[0] == 127 && octets[3] == 1", then = "'DWL_DNSWL_LOW'" },
+        { if = "octets[0] == 127 && octets[3] == 2", then = "'DWL_DNSWL_MED'" },
+        { if = "octets[0] == 127 && octets[3] == 3", then = "'DWL_DNSWL_HI'" },
+        { if = "octets[0] == 127 && octets[3] == 255", then = "'DWL_DNSWL_BLOCKED'" },
+		{ else = false } ]
+scope = "domain"
+
+[spam-filter.dnsbl.server.email-msbl]
+enable = true
+url = "hash(value, 'sha1') + '.ebl.msbl.org'"
+tag = [ { if = "octets[0] == 127 && octets[2] == 0 && (octets[3] == 2 || octets[3] == 3)", then = "'MSBL_EBL'" },
+        { if = "octets[0] == 127 && octets[2] == 1 && (octets[3] == 2 || octets[3] == 3)", then = "'MSBL_EBL_GREY'" },
+		{ else = false } ]
+scope = "email"
+
+[spam-filter.dnsbl.server.url-surbl]
+enable = true
+url = "hash(url, 'md5') + '.hashbl.surbl.org'"
+tag = [ { if = "octets[0] == 127 && octets[3] == 8", then = "'SURBL_HASHBL_PHISH'" },
+        { if = "octets[0] == 127 && octets[3] == 16", then = "'SURBL_HASHBL_MALWARE'" },
+        { if = "octets[0] == 127 && octets[3] == 64", then = "'SURBL_HASHBL_ABUSE'" },
+        { if = "octets[0] == 127 && octets[3] == 128", then = "'SURBL_HASHBL_CRACKED'" },
+        { if = "octets[0] == 127 && octets[2] == 1", then = "'SURBL_HASHBL_EMAIL'" },
+		{ else = false } ]
+scope = "url"

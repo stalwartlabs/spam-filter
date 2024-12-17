@@ -1,0 +1,37 @@
+[[spam-filter.rule]]
+enable = true
+scope = "any"
+priority = 10
+condition = [ { if = "is_intersect(['www-data', 'anonymous', 'ftp', 'apache', 'nobody', 'guest', 'nginx', 'web', 'www'], [from.local, env_from.local, reply_to.local])", then = "'FROM_SERVICE_ACCT'" },
+              { if = "contains(from.local, '+')", then = "'TAGGED_FROM'" },
+			  { else = false } ]
+
+[[spam-filter.rule]]
+enable = true
+scope = "any"
+priority = 11
+condition = [ { if = "starts_with(from.domain, 'www.') || starts_with(reply_to.domain, 'www.')", then = "'WWW_DOT_DOMAIN'" },
+			  { else = false } ]
+
+[[spam-filter.rule]]
+enable = true
+scope = "any"
+priority = 12
+condition = [ { if = "is_intersect(['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'rev.', 'hon.'], split(to_lowercase(from.name), ' '))", then = "'FROM_NAME_HAS_TITLE'" },
+              { if = "is_intersect(['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'rev.', 'hon.'], split(to_lowercase(reply_to.name), ' '))", then = "'REPLYTO_EMAIL_HAS_TITLE'" },
+			  { else = false } ]
+
+[[spam-filter.rule]]
+enable = true
+scope = "any"
+priority = 13
+condition = [ { if = "contains(from.name, '  ')", then = "'FROM_NAME_EXCESS_SPACE'" },
+			  { else = false } ]
+
+[[spam-filter.rule]]
+enable = true
+scope = "any"
+priority = 14
+condition = [ { if = "is_empty(env_from) && ($IS_DSN || $HAS_MESSAGE_PARTS || ($X_HDR_X_MDDSN_MESSAGE && contains(from.local, 'mdaemon')))", then = "'BOUNCE'" },
+			  { else = false } ]
+
