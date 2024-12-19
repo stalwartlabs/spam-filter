@@ -1,5 +1,5 @@
 [spam-filter.list]
-spam-free = {"0-mail.com",
+freemail-providers = {"0-mail.com",
 "027168.com",
 "0815.su",
 "0sg.net",

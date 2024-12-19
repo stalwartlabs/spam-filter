@@ -1,81 +1,81 @@
-[[spam-filter.rule]]
+[spam-filter.rule.R_UNDISC_RCPT]
 enable = true
 scope = "header"
 priority = 60
 condition = [ { if = "contains(['to', 'cc', 'bcc'], name_lower) && contains(raw_lower, 'undisclosed')", then = "'R_UNDISC_RCPT'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.HAS_X_AS]
 enable = true
 scope = "header"
 priority = 61
 condition = [ { if = "name_lower == 'x-authenticated-sender' && contains(value, ': ')", then = "'HAS_X_AS'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.HAS_X_GMSV]
 enable = true
 scope = "header"
 priority = 62
 condition = [ { if = "name_lower == 'x-get-message-sender-via' && contains(value_lower, 'authenticated_id:')", then = "'HAS_X_GMSV'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.HIDDEN_SOURCE_OBJ]
 enable = true
 scope = "header"
 priority = 63
 condition = [ { if = "contains(['x-source', 'x-source-args', 'x-source-dir'], name_lower) && contains(value, '../')", then = "'HIDDEN_SOURCE_OBJ'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.X_PHP_EVAL]
 enable = true
 scope = "header"
 priority = 64
 condition = [ { if = "contains(value_lower, 'eval()') && contains(['x-php-originating-script', 'x-php-script'], name_lower)", then = "'X_PHP_EVAL'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.HIDDEN_SOURCE_PHP]
 enable = true
 scope = "header"
 priority = 65
-condition = [ { if = "contains(value, ../') && contains(['x-php-originating-script', 'x-php-script'], name_lower)", then = "'HIDDEN_SOURCE_OBJ'" },
+condition = [ { if = "contains(value, '../') && contains(['x-php-originating-script', 'x-php-script'], name_lower)", then = "'HIDDEN_SOURCE_OBJ'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.UNITEDINTERNET_SPAM]
 enable = true
 scope = "header"
 priority = 66
 condition = [ { if = "contains(['x-ui-filterresults', 'x-ui-out-filterresults', 'x-source-dir'], name_lower) && contains(value_lower, 'junk')", then = "'UNITEDINTERNET_SPAM'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.SPAM_FLAG]
 enable = true
 scope = "header"
 priority = 67
 condition = [ { if = "contains(['x-spam', 'x-spam-flag', 'x-spam-status'], name_lower) && (contains(value_lower, 'yes') || contains(value_lower, 'true') || contains(value_lower, 'spam'))", then = "'SPAM_FLAG'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.KLMS_SPAM]
 enable = true
 scope = "header"
 priority = 68
 condition = [ { if = "name_lower == 'x-klms-antispam-status' && contains(value_lower, 'spam')", then = "'KLMS_SPAM'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.XM_CASE]
 enable = true
 scope = "header"
 priority = 69
 condition = [ { if = "name_lower == 'x-mailer' && name != 'X-Mailer'", then = "'XM_CASE'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.XM_UA_NO_VERSION]
 enable = true
 scope = "header"
 priority = 70
 condition = [ { if = "(name_lower == 'user_agent' || name_lower == 'x-mailer') && !is_empty(value) && !has_digits(value)", then = "'XM_UA_NO_VERSION'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.HAS_PHPMAILER_SIG]
 enable = true
 scope = "header"
 priority = 71

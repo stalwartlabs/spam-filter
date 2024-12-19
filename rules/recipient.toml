@@ -1,18 +1,18 @@
-[[spam-filter.rule]]
+[spam-filter.rule.TO_DN_RECIPIENTS]
 enable = true
 scope = "email"
 priority = 60
-condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains_ignore_case(name, recipient)", then = "'TO_DN_RECIPIENTS'" },
+condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains_ignore_case(name, 'recipient')", then = "'TO_DN_RECIPIENTS'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.INFO_TO_INFO_LU]
 enable = true
 scope = "email"
 priority = 60
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && local == 'info' && from.local == 'info' && $X_HDR_LIST_UNSUBSCRIBE", then = "'INFO_TO_INFO_LU'" },
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.TAGGED_RCPT]
 enable = true
 scope = "email"
 priority = 60

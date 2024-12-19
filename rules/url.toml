@@ -1,4 +1,4 @@
-[[spam-filter.rule]]
+[spam-filter.rule.HAS_GOOGLE_URL]
 enable = true
 scope = "url"
 priority = 50
@@ -8,7 +8,7 @@ condition = [ { if = "ends_with(host, 'googleusercontent.com') && starts_with(pa
     		  { else = false } ]
 
 
-[[spam-filter.rule]]
+[spam-filter.rule.HAS_IPFS_OR_ONION_URI]
 enable = true
 scope = "url"
 priority = 51
@@ -16,7 +16,7 @@ condition = [ { if = "(contains(host, 'ipfs.') || contains(path_query, '/ipfs'))
               { if = "ends_with(host, '.onion')", then = "'HAS_ONION_URI'" }, 
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.WP_COMPROMISED]
 enable = true
 scope = "url"
 priority = 52
@@ -24,7 +24,7 @@ condition = [ { if = "starts_with(path, '/wp-content') || starts_with(path, '/wp
               { if = "starts_with(path, '/wp-')", then = "'HAS_WP_URI'" }, 
 			  { else = false } ]
 
-[[spam-filter.rule]]
+[spam-filter.rule.URI_HIDDEN_PATH]
 enable = true
 scope = "url"
 priority = 53
