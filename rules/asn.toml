@@ -1,0 +1,21 @@
+[server.asn]
+type = "resource"
+expires = "1d"
+timeout = "5m"
+max-size = 104857600
+
+[[server.asn.resource]]
+type = "asn"
+url = "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv4.csv"
+
+[[server.asn.resource]]
+type = "asn"
+url = "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv6.csv"
+
+[[server.asn.resource]]
+type = "geo"
+url = "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv"
+
+[[server.asn.resource]]
+type = "geo"
+url = "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv"
