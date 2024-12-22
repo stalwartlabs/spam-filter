@@ -2,20 +2,13 @@
 enable = true
 zone = "ip_reverse + '.zen.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
-        { if = "octets[3] == 2 && location == 'tcp'", then = "'RBL_SPAMHAUS_SBL'" },
-        { if = "octets[3] == 2", then = "'RECEIVED_SPAMHAUS_SBL'" },
-        { if = "octets[3] == 3 && location == 'tcp'", then = "'RBL_SPAMHAUS_CSS'" },
-        { if = "octets[3] == 3", then = "'RECEIVED_SPAMHAUS_CSS'" },
-        { if = "octets[3] >= 4 && octets[3] <= 7 && location == 'tcp'", then = "'RBL_SPAMHAUS_XBL'" },
-        { if = "octets[3] >= 4 && octets[3] <= 7", then = "'RECEIVED_SPAMHAUS_XBL'" },
-        { if = "octets[3] == 9 && location == 'tcp'", then = "'RBL_SPAMHAUS_DROP'" },
-        { if = "octets[3] == 9", then = "'RECEIVED_SPAMHAUS_DROP'" },
-        { if = "(octets[3] == 10 || octets[3] == 11) && location == 'tcp'", then = "'RBL_SPAMHAUS_PBL'" },
-        { if = "octets[3] == 10 || octets[3] == 11", then = "'RECEIVED_SPAMHAUS_PBL'" },
-        { if = "octets[3] == 254 && location == 'tcp'", then = "'RBL_SPAMHAUS_BLOCKED_OPENRESOLVER'" },
-        { if = "octets[3] == 254", then = "'RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER'" },
-        { if = "octets[3] == 255 && location == 'tcp'", then = "'RBL_SPAMHAUS_BLOCKED'" },
-        { if = "octets[3] == 255", then = "'RECEIVED_SPAMHAUS_BLOCKED'" },
+        { if = "octets[3] == 2", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_SBL', 'RECEIVED_SPAMHAUS_SBL')" },
+        { if = "octets[3] == 3", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_CSS', 'RECEIVED_SPAMHAUS_CSS')" },
+        { if = "octets[3] >= 4 && octets[3] <= 7", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_XBL', 'RECEIVED_SPAMHAUS_XBL')" },
+        { if = "octets[3] == 9", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_DROP', 'RECEIVED_SPAMHAUS_DROP')" },
+        { if = "(octets[3] == 10 || octets[3] == 11)", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_PBL', 'RECEIVED_SPAMHAUS_PBL')" },
+        { if = "octets[3] == 254", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_BLOCKED_OPENRESOLVER', 'RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER')" },
+        { if = "octets[3] == 255", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_BLOCKED', 'RECEIVED_SPAMHAUS_BLOCKED')" },
 		{ else = false } ]
 scope = "ip"
 

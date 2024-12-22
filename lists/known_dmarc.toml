@@ -1,5 +1,5 @@
-[spam-filter.list]
-dmarc-allow = {"18f.gov",
+[lookup]
+known-dmarc-domains = {"18f.gov",
 "1password.com",
 "2gis.com",
 "4chan.org",

@@ -8,14 +8,22 @@ condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains_ignore
 [spam-filter.rule.INFO_TO_INFO_LU]
 enable = true
 scope = "email"
-priority = 60
+priority = 61
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && local == 'info' && from.local == 'info' && $X_HDR_LIST_UNSUBSCRIBE", then = "'INFO_TO_INFO_LU'" },
 			  { else = false } ]
 
 [spam-filter.rule.TAGGED_RCPT]
 enable = true
 scope = "email"
-priority = 60
+priority = 62
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains(local, '+')", then = "'TAGGED_RCPT'" },
 			  { else = false } ]
 
+[spam-filter.rule.FREE_OR_DISPOSABLE]
+enable = true
+scope = "email"
+priority = 63
+condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bcc'], location) || is_empty(sld)", then = "false" },
+			  { if = "key_exists('freemail-providers', sld)", then = "'FREEMAIL_' + to_uppercase(location)" },
+			  { if = "key_exists('disposable-providers', sld)", then = "'DISPOSABLE_' + to_uppercase(location)" },
+			  { else = false } ]

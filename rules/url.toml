@@ -1,17 +1,30 @@
-[spam-filter.rule.HAS_GOOGLE_URL]
+[spam-filter.rule.PHISHED_OPENPHISH]
 enable = true
 scope = "url"
 priority = 50
+condition = [ { if = "key_exists('open-phish', url)", then = "'PHISHED_OPENPHISH'" },
+			  { else = false } ]
+
+[spam-filter.rule.PHISHED_PHISHTANK]
+enable = true
+scope = "url"
+priority = 51
+condition = [ { if = "key_exists('phish-tank', url)", then = "'PHISHED_PHISHTANK'" },
+			  { else = false } ]
+
+[spam-filter.rule.HAS_GOOGLE_URL]
+enable = true
+scope = "url"
+priority = 52
 condition = [ { if = "ends_with(host, 'googleusercontent.com') && starts_with(path_query, '/proxy/')", then = "'HAS_GUC_PROXY_URI'" },
               { if = "ends_with(host, 'firebasestorage.googleapis.com')", then = "'HAS_GOOGLE_FIREBASE_URL'" },
               { if = "starts_with(sld, 'google.') && contains(path_query, 'url?')", then = "'HAS_GOOGLE_REDIR'" },
     		  { else = false } ]
 
-
 [spam-filter.rule.HAS_IPFS_OR_ONION_URI]
 enable = true
 scope = "url"
-priority = 51
+priority = 53
 condition = [ { if = "(contains(host, 'ipfs.') || contains(path_query, '/ipfs')) && contains(path_query, '/qm')", then = "'HAS_IPFS_GATEWAY_URL'" },
               { if = "ends_with(host, '.onion')", then = "'HAS_ONION_URI'" }, 
 			  { else = false } ]
@@ -19,7 +32,7 @@ condition = [ { if = "(contains(host, 'ipfs.') || contains(path_query, '/ipfs'))
 [spam-filter.rule.WP_COMPROMISED]
 enable = true
 scope = "url"
-priority = 52
+priority = 54
 condition = [ { if = "starts_with(path, '/wp-content') || starts_with(path, '/wp-includes')", then = "'WP_COMPROMISED'" },
               { if = "starts_with(path, '/wp-')", then = "'HAS_WP_URI'" }, 
 			  { else = false } ]
@@ -27,13 +40,13 @@ condition = [ { if = "starts_with(path, '/wp-content') || starts_with(path, '/wp
 [spam-filter.rule.URI_HIDDEN_PATH]
 enable = true
 scope = "url"
-priority = 53
+priority = 55
 condition = [ { if = "contains(path_query, '/../') && !contains(path_query, '/well-known') && !contains(path_query, '/well_known')", then = "'URI_HIDDEN_PATH'" },
 			  { else = false } ]
 
-[spam-filter.remote-list.open-phish]
+[http-lookup.open-phish]
+enable = true
 url = "https://openphish.com/feed.txt"
-scope = "url"
 format = "list"
 retry = "1h"
 refresh = "12h"
@@ -41,19 +54,18 @@ timeout = "30s"
 limits.size = 104857600
 limits.entries = 100000
 limits.entry-size = 512
-tag = "PHISHED_OPENPHISH"
 
-[spam-filter.remote-list.phish-tank]
-url = "http://data.phishtank.com/data/online-valid.csv"
-scope = "url"
+[http-lookup.phish-tank]
+enable = true
+url = "http://data.phishtank.com/data/online-valid.xml.gz"
 format = "csv"
 separator = ","
-column = 1
+index.key = 1
 skip-first = true
+gzipped = true
 retry = "1h"
 refresh = "6h"
 timeout = "30s"
 limits.size = 104857600
 limits.entries = 100000
 limits.entry-size = 512
-tag = "PHISHED_PHISHTANK"

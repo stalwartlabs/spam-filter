@@ -12,7 +12,7 @@
 
 <p align="center">
     <a href="https://stalw.art">
-    <img src="./img/stalwart-warrior.jpg" height="550">
+    <img src="./img/stalwart-warrior.jpg" width="550">
     </a>
 </p>
 

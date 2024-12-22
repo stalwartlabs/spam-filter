@@ -121,7 +121,7 @@ condition = [ { if = "($SPF_FAIL || $SPF_SOFTFAIL) && ($RCVD_COUNT_ZERO || $RCVD
 enable = true
 scope = "any"
 priority = 1017
-condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENVFROM || $FREEMAIL_REPLYTO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLYTO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
+condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENVFROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
  			  { else = false } ]
 
 [spam-filter.rule.REDIRECTOR_URL_ONLY]
@@ -136,4 +136,25 @@ enable = true
 scope = "any"
 priority = 1019
 condition = [ { if = "$FAKE_REPLY && $RCVD_VIA_SMTP_AUTH && (!$RECEIVED_SPAMHAUS_PBL || $RECEIVED_SPAMHAUS_XBL || $RECEIVED_SPAMHAUS_SBL)", then = "'THREAD_HIJACKING_FROM_INJECTOR'" },
+			  { else = false } ]
+
+[spam-filter.rule.DKIM_SIGNED]
+enable = true
+scope = "any"
+priority = 1020
+condition = [ { if = "$X_HDR_DKIM_SIGNATURE", then = "'DKIM_SIGNED'" },
+			  { else = false } ]
+
+[spam-filter.rule.ARC_SIGNED]
+enable = true
+scope = "any"
+priority = 1021
+condition = [ { if = "$X_HDR_ARC_SEAL", then = "'ARC_SIGNED'" },
+			  { else = false } ]
+
+[spam-filter.rule.FREEMAIL_REPLY_TO_NEQ_FROM_DOM]
+enable = true
+scope = "any"
+priority = 1022
+condition = [ { if = "$FREEMAIL_REPLY_TO && from.domain != reply_to.domain", then = "'FREEMAIL_REPLY_TO_NEQ_FROM_DOM'" },
 			  { else = false } ]

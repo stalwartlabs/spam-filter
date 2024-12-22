@@ -1,4 +1,4 @@
-[spam-filter.list]
+[lookup]
 url-redirectors = {"000d.ru",
 "0845.com",
 "0c.ru",

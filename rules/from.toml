@@ -35,3 +35,10 @@ priority = 14
 condition = [ { if = "is_empty(env_from) && ($IS_DSN || $HAS_MESSAGE_PARTS || ($X_HDR_X_MDDSN_MESSAGE && contains_ignore_case(from.name, 'mdaemon')))", then = "'BOUNCE'" },
 			  { else = false } ]
 
+[spam-filter.rule.DMARC_ALLOW_BLOCK]
+enable = true
+scope = "any"
+priority = 15
+condition = [ { if = "key_exists('known-dmarc-domains', from.domain)", then = "if_then($DMARC_POLICY_ALLOW, 'ALLOWLIST_DMARC', 'BLOCKLIST_DMARC')" },
+			  { else = false } ]
+
