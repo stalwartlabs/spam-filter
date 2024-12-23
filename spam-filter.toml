@@ -1,5 +1,5 @@
--e [version]
-spam-filter = "2024-12-23T14:01:02Z"
+[version]
+spam-filter = "2024-12-23T14:20:54Z"
 
 [server.asn]
 type = "resource"
@@ -22,7 +22,7 @@ url = "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-count
 [[server.asn.resource]]
 type = "geo"
 url = "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv"
--e 
+
 
 [spam-filter.rule.SHORT_PART_BAD_HEADERS]
 enable = true
@@ -184,7 +184,7 @@ scope = "any"
 priority = 1022
 condition = [ { if = "$FREEMAIL_REPLY_TO && from.domain != reply_to.domain", then = "'FREEMAIL_REPLY_TO_NEQ_FROM_DOM'" },
 			  { else = false } ]
--e 
+
 
 [spam-filter.dnsbl.server.RBL_SPAMHAUS_IP]
 enable = true
@@ -371,7 +371,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[2] == 1", then = "'SURBL_HASHBL_EMAIL'" },
 		{ else = false } ]
 scope = "url"
--e 
+
 
 [spam-filter.rule.FROM_SERVICE_OR_TAGGED]
 enable = true
@@ -417,7 +417,7 @@ priority = 15
 condition = [ { if = "key_exists('known-dmarc-domains', from.domain)", then = "if_then($DMARC_POLICY_ALLOW, 'ALLOWLIST_DMARC', 'BLOCKLIST_DMARC')" },
 			  { else = false } ]
 
--e 
+
 
 [spam-filter.rule.R_UNDISC_RCPT]
 enable = true
@@ -503,7 +503,7 @@ priority = 71
 condition = [ { if = "name_lower == 'x-mailer' && contains(value_lower, 'phpmailer')", then = "'HAS_PHPMAILER_SIG'" },
 			  { else = false } ]
 
--e 
+
 
 [spam-filter.llm]
 enable = false
@@ -540,7 +540,7 @@ confidence = ["High", "Medium", "Low"]
 category = 0
 confidence = 1
 explanation = 2
--e 
+
 
 [spam-filter.rule.TO_DN_RECIPIENTS]
 enable = true
@@ -571,7 +571,7 @@ condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bc
 			  { if = "key_exists('freemail-providers', sld)", then = "'FREEMAIL_' + to_uppercase(location)" },
 			  { if = "key_exists('disposable-providers', sld)", then = "'DISPOSABLE_' + to_uppercase(location)" },
 			  { else = false } ]
--e 
+
 
 [spam-filter.rule.SUBJ_BOUNCE_WORDS]
 enable = true
@@ -627,7 +627,7 @@ priority = 24
 condition = [ { if = "contains_ignore_case(['re', 'aw', 'antw', 'sv'], split_once(subject, ':')[0]) && !$X_HDR_IN_REPLY_TO && !$X_HDR_REFERENCES", then = "'FAKE_REPLY'" },
 			  { else = false } ]
 
--e 
+
 
 [spam-filter.rule.PHISHED_OPENPHISH]
 enable = true
@@ -700,7 +700,7 @@ timeout = "30s"
 limits.size = 104857600
 limits.entries = 100000
 limits.entry-size = 512
--e 
+
 
 # Lists
 [lookup]
@@ -1131,7 +1131,7 @@ disposable-providers = {"0815.ru",
 "zehnminutenmail.de",
 "zippymail.info",
 "zoemail.net"}
--e 
+
 
 [lookup]
 freemail-providers = {"0-mail.com",
@@ -5141,7 +5141,7 @@ freemail-providers = {"0-mail.com",
 "zydecofan.com",
 "zzn.com",
 "zzz.com"}
--e 
+
 
 [spam-filter.list]
 file-extensions = {
@@ -5277,7 +5277,7 @@ file-extensions = {
 "xz" = "AR",
 "zip" = "AR",
 "txt" = "text/plain|message/disposition-notification|text/rfc822-headers"}
--e 
+
 
 [lookup]
 known-dmarc-domains = {"18f.gov",
@@ -6066,7 +6066,7 @@ known-dmarc-domains = {"18f.gov",
 "zionsbank.com",
 "zomato.com"}
 
--e 
+
 
 [spam-filter.list]
 scores = {"ABUSE_SURBL" = "5.0",
@@ -6431,7 +6431,7 @@ scores = {"ABUSE_SURBL" = "5.0",
 "LLM_LEGITIMATE_HIGH" = "-3.0",
 "LLM_LEGITIMATE_MEDIUM" = "-2.0",
 "LLM_LEGITIMATE_LOW" = "-0.5"}
--e 
+
 
 [lookup]
 trusted-domains = {"126.com",
@@ -7262,7 +7262,7 @@ trusted-domains = {"126.com",
 "svn.apache.org",
 "taggedmail.com",
 "tumblr.com"}
--e 
+
 
 [lookup]
 url-redirectors = {"000d.ru",
@@ -8342,5 +8342,5 @@ url-redirectors = {"000d.ru",
 "zzang.kr",
 "zz.gd"}
 
--e 
+
 
