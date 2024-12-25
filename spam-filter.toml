@@ -1,5 +1,5 @@
 [version]
-spam-filter = "2024-12-23T14:20:54Z"
+spam-filter = "2024-12-25T17:54:34Z"
 
 [server.asn]
 type = "resource"
@@ -220,7 +220,7 @@ scope = "ip"
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
 		{ else = false } ]
-tag = [ { if = "!is_empty(ip)", then = "'RBL_SENDERSCORE'" },
+tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_SENDERSCORE'" },
 		{ else = false } ]
 scope = "ip"
 
@@ -688,7 +688,7 @@ limits.entry-size = 512
 
 [http-lookup.phish-tank]
 enable = true
-url = "http://data.phishtank.com/data/online-valid.xml.gz"
+url = "http://data.phishtank.com/data/online-valid.csv.gz"
 format = "csv"
 separator = ","
 index.key = 1
@@ -6216,7 +6216,7 @@ scores = {"ABUSE_SURBL" = "5.0",
 "MID_MISSING_BRACKETS" = "1.0",
 "MID_RHS_IP_LITERAL" = "1.0",
 "MID_RHS_MATCH_FROM" = "1.0",
-"MID_RHS_MATCH_FROMTLD" = "1.0",
+"MID_RHS_MATCH_FROMTLD" = "0.0",
 "MID_RHS_MATCH_TO" = "1.0",
 "MID_RHS_NOT_FQDN" = "0.5",
 "MID_RHS_WWW" = "0.5",

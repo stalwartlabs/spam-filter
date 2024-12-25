@@ -57,7 +57,7 @@ limits.entry-size = 512
 
 [http-lookup.phish-tank]
 enable = true
-url = "http://data.phishtank.com/data/online-valid.xml.gz"
+url = "http://data.phishtank.com/data/online-valid.csv.gz"
 format = "csv"
 separator = ","
 index.key = 1

@@ -32,7 +32,7 @@ scope = "ip"
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
 		{ else = false } ]
-tag = [ { if = "!is_empty(ip)", then = "'RBL_SENDERSCORE'" },
+tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_SENDERSCORE'" },
 		{ else = false } ]
 scope = "ip"
 
