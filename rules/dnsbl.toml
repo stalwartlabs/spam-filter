@@ -1,4 +1,4 @@
-[spam-filter.dnsbl.server.RBL_SPAMHAUS_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SPAMHAUS_IP]
 enable = true
 zone = "ip_reverse + '.zen.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
@@ -12,7 +12,7 @@ tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_MAILSPIKE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_MAILSPIKE_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.rep.mailspike.net'" },
 		{ else = false } ]
@@ -28,7 +28,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_SENDERSCORE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SENDERSCORE_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
 		{ else = false } ]
@@ -36,7 +36,7 @@ tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_SENDERSCORE'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_SEM_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SEM_IP]
 enable = true
 zone = [ { if = "location == 'tcp' && is_v4", then = "ip_reverse + '.bl.spameatingmonkey.net'" },
         { if = "location == 'tcp' && is_v6", then = "ip_reverse + '.bl.ipv6.spameatingmonkey.net'" },
@@ -45,7 +45,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_SEM'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_VIRUSFREE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_VIRUSFREE_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bip.virusfree.cz'" },
 		{ else = false } ]
@@ -53,7 +53,7 @@ tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_VIRUSFREE_BOTNET'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_NIXSPAM_IP]
+[spam-filter.dnsbl.server.STWT_RBL_NIXSPAM_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.ix.dnsbl.manitu.net'" },
 		{ else = false } ]
@@ -61,7 +61,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_NIXSPAM'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_SPAMCOP_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SPAMCOP_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.spamcop.net'" },
 		{ else = false } ]
@@ -69,7 +69,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_SPAMCOP'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_BARRACUDA_IP]
+[spam-filter.dnsbl.server.STWT_RBL_BARRACUDA_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.b.barracudacentral.org'" },
 		{ else = false } ]
@@ -77,7 +77,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_BARRACUDA'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_BLOCKLISTDE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_BLOCKLISTDE_IP]
 enable = true
 zone = "ip_reverse + '.bl.blocklist.de'"
 tag = [ { if = "!is_empty(ip) && location == 'tcp'", then = "'RBL_BLOCKLISTDE'" },
@@ -85,7 +85,7 @@ tag = [ { if = "!is_empty(ip) && location == 'tcp'", then = "'RBL_BLOCKLISTDE'" 
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.DNSWL_IP]
+[spam-filter.dnsbl.server.STWT_DNSWL_IP]
 enable = true
 zone = "ip_reverse + '.list.dnswl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -97,7 +97,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.DBL_SPAMHAUS_DOMAIN]
+[spam-filter.dnsbl.server.STWT_DBL_SPAMHAUS_DOMAIN]
 enable = true
 zone = "value + '.dbl.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -115,7 +115,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.SURBL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_SURBL_DOMAIN]
 enable = true
 zone = "value + '.multi.surbl.org'"
 tag = [ { if = "ip == '127.0.0.128'", then = "'CRACKED_SURBL'" },
@@ -126,7 +126,7 @@ tag = [ { if = "ip == '127.0.0.128'", then = "'CRACKED_SURBL'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.URIBL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_URIBL_DOMAIN]
 enable = true
 zone = "value + '.multi.uribl.com'"
 tag = [ { if = "ip == '127.0.0.1'", then = "'URIBL_BLOCKED'" },
@@ -136,21 +136,21 @@ tag = [ { if = "ip == '127.0.0.1'", then = "'URIBL_BLOCKED'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.SEM_URIBL]
+[spam-filter.dnsbl.server.STWT_SEM_URIBL]
 enable = true
 zone = "value + '.uribl.spameatingmonkey.net'"
 tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.SEM_URIBL_FRESH15]
+[spam-filter.dnsbl.server.STWT_SEM_URIBL_FRESH15]
 enable = true
 zone = "value + '.fresh15.spameatingmonkey.net'"
 tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL_FRESH15'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.DWL_DNSWL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_DWL_DNSWL_DOMAIN]
 enable = true
 zone = [ { if = "location == 'dkim_pass'", then = "value + '.dwl.dnswl.org'" },
 		{ else = false } ]
@@ -163,7 +163,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.MSBL_EBL_EMAIL]
+[spam-filter.dnsbl.server.STWT_MSBL_EBL_EMAIL]
 enable = true
 zone = "hash(email, 'sha1') + '.ebl.msbl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -172,7 +172,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "email"
 
-[spam-filter.dnsbl.server.SURBL_HASHBL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_SURBL_HASHBL_DOMAIN]
 enable = true
 zone = "hash(url, 'md5') + '.hashbl.surbl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },

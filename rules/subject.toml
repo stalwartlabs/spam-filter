@@ -1,4 +1,4 @@
-[spam-filter.rule.SUBJ_BOUNCE_WORDS]
+[spam-filter.rule.STWT_SUBJ_BOUNCE_WORDS]
 enable = true
 scope = "any"
 priority = 20
@@ -21,14 +21,14 @@ condition = [ { if = "(contains(subject, 'delivery') &&
          contains(subject, 'undelivered')", then = "'SUBJ_BOUNCE_WORDS'" },
 			   { else = false } ]
 
-[spam-filter.rule.BOUNCE_SUBJECT]
+[spam-filter.rule.STWT_BOUNCE_SUBJECT]
 enable = true
 scope = "any"
 priority = 21
 condition = [ { if = "!$BOUNCE && is_empty(env_from) && $SUBJ_BOUNCE_WORDS && (contains(from.local, 'postmaster') || contains(from.local, 'mailer-daemon'))", then = "'BOUNCE'" },
 			   { else = false } ]
 
-[spam-filter.rule.SUBJECT_HAS_SYMBOLS]
+[spam-filter.rule.STWT_SUBJECT_HAS_SYMBOLS]
 enable = true
 scope = "any"
 priority = 22
@@ -38,14 +38,14 @@ condition = [ { if = "ends_with(trim(subject), '!')", then = "'SUBJECT_ENDS_EXCL
               { if = "contains(subject, '?')", then = "'SUBJECT_HAS_QUESTION'" },
 			  { else = false } ]
 
-[spam-filter.rule.LONG_SUBJ]
+[spam-filter.rule.STWT_LONG_SUBJ]
 enable = true
 scope = "any"
 priority = 23
 condition = [ { if = "len(subject) > 200", then = "'LONG_SUBJ'" },
 			  { else = false } ]
 
-[spam-filter.rule.FAKE_REPLY]
+[spam-filter.rule.STWT_FAKE_REPLY]
 enable = true
 scope = "any"
 priority = 24

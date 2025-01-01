@@ -1,158 +1,158 @@
-[spam-filter.rule.SHORT_PART_BAD_HEADERS]
+[spam-filter.rule.STWT_SHORT_BAD_HEADERS]
 enable = true
 scope = "any"
 priority = 1000
 condition = [ { if = "$MISSING_ESSENTIAL_HEADERS && $SINGLE_SHORT_PART", then = "'SHORT_PART_BAD_HEADERS'" },
  			  { else = false } ]
 
-[spam-filter.rule.FORGED_RECIPIENTS_MAILLIST]
+[spam-filter.rule.STWT_FORGED_RCPT_LIST]
 enable = true
 scope = "any"
 priority = 1001
 condition = [ { if = "$FORGED_RECIPIENTS && $MAILLIST", then = "'FORGED_RECIPIENTS_MAILLIST'" },
  			  { else = false } ]
 
-[spam-filter.rule.FORGED_SENDER_MAILLIST]
+[spam-filter.rule.STWT_FORGED_SENDER_LIST]
 enable = true
 scope = "any"
 priority = 1002
 condition = [ { if = "$FORGED_SENDER && $MAILLIST", then = "'FORGED_SENDER_MAILLIST'" },
  			  { else = false } ]
 
-[spam-filter.rule.DMARC_POLICY_ALLOW_WITH_FAILURES]
+[spam-filter.rule.STWT_DMARC_ALLOW_WITH_FAIL]
 enable = true
 scope = "any"
 priority = 1003
 condition = [ { if = "$DMARC_POLICY_ALLOW && ($SPF_SOFTFAIL || $SPF_FAIL || $DKIM_REJECT)", then = "'DMARC_POLICY_ALLOW_WITH_FAILURES'" },
  			  { else = false } ]
 
-[spam-filter.rule.AUTH_NA]
+[spam-filter.rule.STWT_AUTH_NA]
 enable = true
 scope = "any"
 priority = 1004
 condition = [ { if = "$DKIM_NA && $SPF_NA && $DMARC_NA && $ARC_NA", then = "'AUTH_NA'" },
  			  { else = false } ]
 
-[spam-filter.rule.AUTH_NA_OR_FAIL]
+[spam-filter.rule.STWT_AUTH_NA_FAIL]
 enable = true
 scope = "any"
 priority = 1005
 condition = [ { if = "!($DKIM_NA && $SPF_NA && $DMARC_NA && $ARC_NA) && ($DKIM_NA || $DKIM_TEMPFAIL || $DKIM_PERMFAIL) && ($SPF_NA || $SPF_DNSFAIL) && $DMARC_NA && ($ARC_NA || $ARC_DNSFAIL)", then = "'AUTH_NA_OR_FAIL'" },
  			  { else = false } ]
 
-[spam-filter.rule.BOUNCE_NO_AUTH]
+[spam-filter.rule.STWT_BOUNCE_NO_AUTH]
 enable = true
 scope = "any"
 priority = 1006
 condition = [ { if = "($AUTH_NA || $AUTH_NA_OR_FAIL) && ($BOUNCE || $SUBJ_BOUNCE_WORDS)", then = "'BOUNCE_NO_AUTH'" },
  			  { else = false } ]
 
-[spam-filter.rule.HACKED_WP_PHISHING]
+[spam-filter.rule.STWT_HACKED_WP_PHISHING]
 enable = true
 scope = "any"
 priority = 1007
 condition = [ { if = "($X_HDR_X_PHP_ORIGINATING_SCRIPT || $HAS_PHPMAILER_SIG) && $HAS_WP_URI && ($PHISHING || $CRACKED_SURBL || $PH_SURBL_MULTI || $DBL_PHISH || $DBL_ABUSE_PHISH || $URIBL_BLACK || $PHISHED_OPENPHISH || $PHISHED_PHISHTANK)", then = "'HACKED_WP_PHISHING'" },
  			  { else = false } ]
 
-[spam-filter.rule.COMPROMISED_ACCT_BULK]
+[spam-filter.rule.STWT_COMPROMISED_ACCT_BULK]
 enable = true
 scope = "any"
 priority = 1008
 condition = [ { if = "($X_HDR_X_ORIGINATING_IP || $RCVD_FROM_SMTP_AUTH) && $DCC_BULK", then = "'COMPROMISED_ACCT_BULK'" },
  			  { else = false } ]
 
-[spam-filter.rule.UNDISC_RCPTS_BULK]
+[spam-filter.rule.STWT_UNDISC_RCPTS_BULK]
 enable = true
 scope = "any"
 priority = 1009
 condition = [ { if = "$DCC_BULK && ($MISSING_TO || $R_UNDISC_RCPT)", then = "'UNDISC_RCPTS_BULK'" },
  			  { else = false } ]
 
-[spam-filter.rule.RCVD_UNAUTH_PBL]
+[spam-filter.rule.STWT_RCVD_UNAUTH_PBL]
 enable = true
 scope = "any"
 priority = 1010
 condition = [ { if = "$RECEIVED_SPAMHAUS_PBL && !$RCVD_VIA_SMTP_AUTH", then = "'RCVD_UNAUTH_PBL'" },
  			  { else = false } ]
 
-[spam-filter.rule.RCVD_DKIM_ARC_DNSWL_MED]
+[spam-filter.rule.STWT_RCVD_DKIM_ARC_DNSWL_MED]
 enable = true
 scope = "any"
 priority = 1011
 condition = [ { if = "($DKIM_ALLOW || $ARC_ALLOW) && $RCVD_IN_DNSWL_MED", then = "'RCVD_DKIM_ARC_DNSWL_MED'" },
  			  { else = false } ]
 
-[spam-filter.rule.RCVD_DKIM_ARC_DNSWL_HI]
+[spam-filter.rule.STWT_RCVD_DKIM_ARC_DNSWL_HI]
 enable = true
 scope = "any"
 priority = 1012
 condition = [ { if = "($DKIM_ALLOW || $ARC_ALLOW) && $RCVD_IN_DNSWL_HI", then = "'RCVD_DKIM_ARC_DNSWL_HI'" },
  			  { else = false } ]
 
-[spam-filter.rule.AUTOGEN_PHP_SPAMMY]
+[spam-filter.rule.STWT_AUTOGEN_PHP_SPAMMY]
 enable = true
 scope = "any"
 priority = 1013
 condition = [ { if = "($X_HDR_X_PHP_ORIGINATING_SCRIPT || $HAS_PHPMAILER_SIG || $X_HDR_X_PHP_SCRIPT) && ($SUBJECT_ENDS_QUESTION || $SUBJECT_ENDS_EXCLAIM || $MANY_INVISIBLE_PARTS)", then = "'AUTOGEN_PHP_SPAMMY'" },
  			  { else = false } ]
 
-[spam-filter.rule.PHISH_EMOTION]
+[spam-filter.rule.STWT_PHISH_EMOTION]
 enable = true
 scope = "any"
 priority = 1014
 condition = [ { if = "($PHISHING || $DBL_PHISH || $PHISHED_OPENPHISH || $PHISHED_PHISHTANK) && ($SUBJECT_ENDS_QUESTION || $SUBJECT_ENDS_EXCLAIM)", then = "'PHISH_EMOTION'" },
  			  { else = false } ]
 
-[spam-filter.rule.HAS_ANON_DOMAIN]
+[spam-filter.rule.STWT_HAS_ANON_DOMAIN]
 enable = true
 scope = "any"
 priority = 1015
 condition = [ { if = "$HAS_GUC_PROXY_URI || $URIBL_RED || $DBL_ABUSE_REDIR || $HAS_ONION_URI", then = "'HAS_ANON_DOMAIN'" },
  			  { else = false } ]
 
-[spam-filter.rule.VIOLATED_DIRECT_SPF]
+[spam-filter.rule.STWT_VIOLATED_DIRECT_SPF]
 enable = true
 scope = "any"
 priority = 1016
 condition = [ { if = "($SPF_FAIL || $SPF_SOFTFAIL) && ($RCVD_COUNT_ZERO || $RCVD_NO_TLS_LAST)", then = "'VIOLATED_DIRECT_SPF'" },
  			  { else = false } ]
 
-[spam-filter.rule.FREEMAIL_AFF]
+[spam-filter.rule.STWT_FREEMAIL_AFF]
 enable = true
 scope = "any"
 priority = 1017
 condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENVFROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
  			  { else = false } ]
 
-[spam-filter.rule.REDIRECTOR_URL_ONLY]
+[spam-filter.rule.STWT_REDIRECTOR_URL_ONLY]
 enable = true
 scope = "any"
 priority = 1018
 condition = [ { if = "$URL_ONLY && $REDIRECTOR_URL", then = "'REDIRECTOR_URL_ONLY'" },
 			  { else = false } ]
 
-[spam-filter.rule.THREAD_HIJACKING_FROM_INJECTOR]
+[spam-filter.rule.STWT_THREAD_HIJACKING]
 enable = true
 scope = "any"
 priority = 1019
 condition = [ { if = "$FAKE_REPLY && $RCVD_VIA_SMTP_AUTH && (!$RECEIVED_SPAMHAUS_PBL || $RECEIVED_SPAMHAUS_XBL || $RECEIVED_SPAMHAUS_SBL)", then = "'THREAD_HIJACKING_FROM_INJECTOR'" },
 			  { else = false } ]
 
-[spam-filter.rule.DKIM_SIGNED]
+[spam-filter.rule.STWT_DKIM_SIGNED]
 enable = true
 scope = "any"
 priority = 1020
 condition = [ { if = "$X_HDR_DKIM_SIGNATURE", then = "'DKIM_SIGNED'" },
 			  { else = false } ]
 
-[spam-filter.rule.ARC_SIGNED]
+[spam-filter.rule.STWT_ARC_SIGNED]
 enable = true
 scope = "any"
 priority = 1021
 condition = [ { if = "$X_HDR_ARC_SEAL", then = "'ARC_SIGNED'" },
 			  { else = false } ]
 
-[spam-filter.rule.FREEMAIL_REPLY_TO_NEQ_FROM_DOM]
+[spam-filter.rule.STWT_FREEMAIL_RTO_NEQ_DOM]
 enable = true
 scope = "any"
 priority = 1022

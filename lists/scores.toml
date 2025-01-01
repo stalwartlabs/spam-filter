@@ -1,7 +1,7 @@
 [spam-filter.list]
 scores = {"ABUSE_SURBL" = "5.0",
 "ALLOWLIST_DMARC" = "-7.0",
-"ARC_ALLOW" = "-1.0",
+"ARC_ALLOW" = "0.0",
 "ARC_DNSFAIL" = "0.0",
 "ARC_INVALID" = "0.5",
 "ARC_NA" = "0.0",

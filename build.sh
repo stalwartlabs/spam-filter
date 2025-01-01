@@ -9,7 +9,7 @@
 # Output file
 output_file="spam-filter.toml"
 
-echo -e "[version]\nspam-filter = \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"\n" > "$output_file"
+echo -e "[version]\nspam-filter = \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"\nserver = \"$(cat MIN_SERVER_SEMVER)\"\n" > "$output_file"
 
 if [ -d "rules" ]; then
     for file in rules/*.toml; do

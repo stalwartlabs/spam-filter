@@ -1,5 +1,6 @@
 [version]
-spam-filter = "2024-12-25T17:54:34Z"
+spam-filter = "2025-01-01T11:10:41Z"
+server = "0.11.0"
 
 [server.asn]
 type = "resource"
@@ -7,178 +8,168 @@ expires = "1d"
 timeout = "5m"
 max-size = 104857600
 
-[[server.asn.resource]]
-type = "asn"
-url = "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv4.csv"
-
-[[server.asn.resource]]
-type = "asn"
-url = "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv6.csv"
-
-[[server.asn.resource]]
-type = "geo"
-url = "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv"
-
-[[server.asn.resource]]
-type = "geo"
-url = "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv"
+[server.asn.urls]
+asn = [ "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv4.csv", 
+        "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv6.csv" ]
+geo = [ "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv", 
+        "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv" ]
 
 
-[spam-filter.rule.SHORT_PART_BAD_HEADERS]
+[spam-filter.rule.STWT_SHORT_BAD_HEADERS]
 enable = true
 scope = "any"
 priority = 1000
 condition = [ { if = "$MISSING_ESSENTIAL_HEADERS && $SINGLE_SHORT_PART", then = "'SHORT_PART_BAD_HEADERS'" },
  			  { else = false } ]
 
-[spam-filter.rule.FORGED_RECIPIENTS_MAILLIST]
+[spam-filter.rule.STWT_FORGED_RCPT_LIST]
 enable = true
 scope = "any"
 priority = 1001
 condition = [ { if = "$FORGED_RECIPIENTS && $MAILLIST", then = "'FORGED_RECIPIENTS_MAILLIST'" },
  			  { else = false } ]
 
-[spam-filter.rule.FORGED_SENDER_MAILLIST]
+[spam-filter.rule.STWT_FORGED_SENDER_LIST]
 enable = true
 scope = "any"
 priority = 1002
 condition = [ { if = "$FORGED_SENDER && $MAILLIST", then = "'FORGED_SENDER_MAILLIST'" },
  			  { else = false } ]
 
-[spam-filter.rule.DMARC_POLICY_ALLOW_WITH_FAILURES]
+[spam-filter.rule.STWT_DMARC_ALLOW_WITH_FAIL]
 enable = true
 scope = "any"
 priority = 1003
 condition = [ { if = "$DMARC_POLICY_ALLOW && ($SPF_SOFTFAIL || $SPF_FAIL || $DKIM_REJECT)", then = "'DMARC_POLICY_ALLOW_WITH_FAILURES'" },
  			  { else = false } ]
 
-[spam-filter.rule.AUTH_NA]
+[spam-filter.rule.STWT_AUTH_NA]
 enable = true
 scope = "any"
 priority = 1004
 condition = [ { if = "$DKIM_NA && $SPF_NA && $DMARC_NA && $ARC_NA", then = "'AUTH_NA'" },
  			  { else = false } ]
 
-[spam-filter.rule.AUTH_NA_OR_FAIL]
+[spam-filter.rule.STWT_AUTH_NA_FAIL]
 enable = true
 scope = "any"
 priority = 1005
 condition = [ { if = "!($DKIM_NA && $SPF_NA && $DMARC_NA && $ARC_NA) && ($DKIM_NA || $DKIM_TEMPFAIL || $DKIM_PERMFAIL) && ($SPF_NA || $SPF_DNSFAIL) && $DMARC_NA && ($ARC_NA || $ARC_DNSFAIL)", then = "'AUTH_NA_OR_FAIL'" },
  			  { else = false } ]
 
-[spam-filter.rule.BOUNCE_NO_AUTH]
+[spam-filter.rule.STWT_BOUNCE_NO_AUTH]
 enable = true
 scope = "any"
 priority = 1006
 condition = [ { if = "($AUTH_NA || $AUTH_NA_OR_FAIL) && ($BOUNCE || $SUBJ_BOUNCE_WORDS)", then = "'BOUNCE_NO_AUTH'" },
  			  { else = false } ]
 
-[spam-filter.rule.HACKED_WP_PHISHING]
+[spam-filter.rule.STWT_HACKED_WP_PHISHING]
 enable = true
 scope = "any"
 priority = 1007
 condition = [ { if = "($X_HDR_X_PHP_ORIGINATING_SCRIPT || $HAS_PHPMAILER_SIG) && $HAS_WP_URI && ($PHISHING || $CRACKED_SURBL || $PH_SURBL_MULTI || $DBL_PHISH || $DBL_ABUSE_PHISH || $URIBL_BLACK || $PHISHED_OPENPHISH || $PHISHED_PHISHTANK)", then = "'HACKED_WP_PHISHING'" },
  			  { else = false } ]
 
-[spam-filter.rule.COMPROMISED_ACCT_BULK]
+[spam-filter.rule.STWT_COMPROMISED_ACCT_BULK]
 enable = true
 scope = "any"
 priority = 1008
 condition = [ { if = "($X_HDR_X_ORIGINATING_IP || $RCVD_FROM_SMTP_AUTH) && $DCC_BULK", then = "'COMPROMISED_ACCT_BULK'" },
  			  { else = false } ]
 
-[spam-filter.rule.UNDISC_RCPTS_BULK]
+[spam-filter.rule.STWT_UNDISC_RCPTS_BULK]
 enable = true
 scope = "any"
 priority = 1009
 condition = [ { if = "$DCC_BULK && ($MISSING_TO || $R_UNDISC_RCPT)", then = "'UNDISC_RCPTS_BULK'" },
  			  { else = false } ]
 
-[spam-filter.rule.RCVD_UNAUTH_PBL]
+[spam-filter.rule.STWT_RCVD_UNAUTH_PBL]
 enable = true
 scope = "any"
 priority = 1010
 condition = [ { if = "$RECEIVED_SPAMHAUS_PBL && !$RCVD_VIA_SMTP_AUTH", then = "'RCVD_UNAUTH_PBL'" },
  			  { else = false } ]
 
-[spam-filter.rule.RCVD_DKIM_ARC_DNSWL_MED]
+[spam-filter.rule.STWT_RCVD_DKIM_ARC_DNSWL_MED]
 enable = true
 scope = "any"
 priority = 1011
 condition = [ { if = "($DKIM_ALLOW || $ARC_ALLOW) && $RCVD_IN_DNSWL_MED", then = "'RCVD_DKIM_ARC_DNSWL_MED'" },
  			  { else = false } ]
 
-[spam-filter.rule.RCVD_DKIM_ARC_DNSWL_HI]
+[spam-filter.rule.STWT_RCVD_DKIM_ARC_DNSWL_HI]
 enable = true
 scope = "any"
 priority = 1012
 condition = [ { if = "($DKIM_ALLOW || $ARC_ALLOW) && $RCVD_IN_DNSWL_HI", then = "'RCVD_DKIM_ARC_DNSWL_HI'" },
  			  { else = false } ]
 
-[spam-filter.rule.AUTOGEN_PHP_SPAMMY]
+[spam-filter.rule.STWT_AUTOGEN_PHP_SPAMMY]
 enable = true
 scope = "any"
 priority = 1013
 condition = [ { if = "($X_HDR_X_PHP_ORIGINATING_SCRIPT || $HAS_PHPMAILER_SIG || $X_HDR_X_PHP_SCRIPT) && ($SUBJECT_ENDS_QUESTION || $SUBJECT_ENDS_EXCLAIM || $MANY_INVISIBLE_PARTS)", then = "'AUTOGEN_PHP_SPAMMY'" },
  			  { else = false } ]
 
-[spam-filter.rule.PHISH_EMOTION]
+[spam-filter.rule.STWT_PHISH_EMOTION]
 enable = true
 scope = "any"
 priority = 1014
 condition = [ { if = "($PHISHING || $DBL_PHISH || $PHISHED_OPENPHISH || $PHISHED_PHISHTANK) && ($SUBJECT_ENDS_QUESTION || $SUBJECT_ENDS_EXCLAIM)", then = "'PHISH_EMOTION'" },
  			  { else = false } ]
 
-[spam-filter.rule.HAS_ANON_DOMAIN]
+[spam-filter.rule.STWT_HAS_ANON_DOMAIN]
 enable = true
 scope = "any"
 priority = 1015
 condition = [ { if = "$HAS_GUC_PROXY_URI || $URIBL_RED || $DBL_ABUSE_REDIR || $HAS_ONION_URI", then = "'HAS_ANON_DOMAIN'" },
  			  { else = false } ]
 
-[spam-filter.rule.VIOLATED_DIRECT_SPF]
+[spam-filter.rule.STWT_VIOLATED_DIRECT_SPF]
 enable = true
 scope = "any"
 priority = 1016
 condition = [ { if = "($SPF_FAIL || $SPF_SOFTFAIL) && ($RCVD_COUNT_ZERO || $RCVD_NO_TLS_LAST)", then = "'VIOLATED_DIRECT_SPF'" },
  			  { else = false } ]
 
-[spam-filter.rule.FREEMAIL_AFF]
+[spam-filter.rule.STWT_FREEMAIL_AFF]
 enable = true
 scope = "any"
 priority = 1017
 condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENVFROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
  			  { else = false } ]
 
-[spam-filter.rule.REDIRECTOR_URL_ONLY]
+[spam-filter.rule.STWT_REDIRECTOR_URL_ONLY]
 enable = true
 scope = "any"
 priority = 1018
 condition = [ { if = "$URL_ONLY && $REDIRECTOR_URL", then = "'REDIRECTOR_URL_ONLY'" },
 			  { else = false } ]
 
-[spam-filter.rule.THREAD_HIJACKING_FROM_INJECTOR]
+[spam-filter.rule.STWT_THREAD_HIJACKING]
 enable = true
 scope = "any"
 priority = 1019
 condition = [ { if = "$FAKE_REPLY && $RCVD_VIA_SMTP_AUTH && (!$RECEIVED_SPAMHAUS_PBL || $RECEIVED_SPAMHAUS_XBL || $RECEIVED_SPAMHAUS_SBL)", then = "'THREAD_HIJACKING_FROM_INJECTOR'" },
 			  { else = false } ]
 
-[spam-filter.rule.DKIM_SIGNED]
+[spam-filter.rule.STWT_DKIM_SIGNED]
 enable = true
 scope = "any"
 priority = 1020
 condition = [ { if = "$X_HDR_DKIM_SIGNATURE", then = "'DKIM_SIGNED'" },
 			  { else = false } ]
 
-[spam-filter.rule.ARC_SIGNED]
+[spam-filter.rule.STWT_ARC_SIGNED]
 enable = true
 scope = "any"
 priority = 1021
 condition = [ { if = "$X_HDR_ARC_SEAL", then = "'ARC_SIGNED'" },
 			  { else = false } ]
 
-[spam-filter.rule.FREEMAIL_REPLY_TO_NEQ_FROM_DOM]
+[spam-filter.rule.STWT_FREEMAIL_RTO_NEQ_DOM]
 enable = true
 scope = "any"
 priority = 1022
@@ -186,7 +177,7 @@ condition = [ { if = "$FREEMAIL_REPLY_TO && from.domain != reply_to.domain", the
 			  { else = false } ]
 
 
-[spam-filter.dnsbl.server.RBL_SPAMHAUS_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SPAMHAUS_IP]
 enable = true
 zone = "ip_reverse + '.zen.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
@@ -200,7 +191,7 @@ tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_MAILSPIKE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_MAILSPIKE_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.rep.mailspike.net'" },
 		{ else = false } ]
@@ -216,7 +207,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_SENDERSCORE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SENDERSCORE_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
 		{ else = false } ]
@@ -224,7 +215,7 @@ tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_SENDERSCORE'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_SEM_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SEM_IP]
 enable = true
 zone = [ { if = "location == 'tcp' && is_v4", then = "ip_reverse + '.bl.spameatingmonkey.net'" },
         { if = "location == 'tcp' && is_v6", then = "ip_reverse + '.bl.ipv6.spameatingmonkey.net'" },
@@ -233,7 +224,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_SEM'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_VIRUSFREE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_VIRUSFREE_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bip.virusfree.cz'" },
 		{ else = false } ]
@@ -241,7 +232,7 @@ tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_VIRUSFREE_BOTNET'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_NIXSPAM_IP]
+[spam-filter.dnsbl.server.STWT_RBL_NIXSPAM_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.ix.dnsbl.manitu.net'" },
 		{ else = false } ]
@@ -249,7 +240,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_NIXSPAM'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_SPAMCOP_IP]
+[spam-filter.dnsbl.server.STWT_RBL_SPAMCOP_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.spamcop.net'" },
 		{ else = false } ]
@@ -257,7 +248,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_SPAMCOP'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_BARRACUDA_IP]
+[spam-filter.dnsbl.server.STWT_RBL_BARRACUDA_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.b.barracudacentral.org'" },
 		{ else = false } ]
@@ -265,7 +256,7 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_BARRACUDA'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.RBL_BLOCKLISTDE_IP]
+[spam-filter.dnsbl.server.STWT_RBL_BLOCKLISTDE_IP]
 enable = true
 zone = "ip_reverse + '.bl.blocklist.de'"
 tag = [ { if = "!is_empty(ip) && location == 'tcp'", then = "'RBL_BLOCKLISTDE'" },
@@ -273,7 +264,7 @@ tag = [ { if = "!is_empty(ip) && location == 'tcp'", then = "'RBL_BLOCKLISTDE'" 
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.DNSWL_IP]
+[spam-filter.dnsbl.server.STWT_DNSWL_IP]
 enable = true
 zone = "ip_reverse + '.list.dnswl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -285,7 +276,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.DBL_SPAMHAUS_DOMAIN]
+[spam-filter.dnsbl.server.STWT_DBL_SPAMHAUS_DOMAIN]
 enable = true
 zone = "value + '.dbl.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -303,7 +294,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.SURBL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_SURBL_DOMAIN]
 enable = true
 zone = "value + '.multi.surbl.org'"
 tag = [ { if = "ip == '127.0.0.128'", then = "'CRACKED_SURBL'" },
@@ -314,7 +305,7 @@ tag = [ { if = "ip == '127.0.0.128'", then = "'CRACKED_SURBL'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.URIBL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_URIBL_DOMAIN]
 enable = true
 zone = "value + '.multi.uribl.com'"
 tag = [ { if = "ip == '127.0.0.1'", then = "'URIBL_BLOCKED'" },
@@ -324,21 +315,21 @@ tag = [ { if = "ip == '127.0.0.1'", then = "'URIBL_BLOCKED'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.SEM_URIBL]
+[spam-filter.dnsbl.server.STWT_SEM_URIBL]
 enable = true
 zone = "value + '.uribl.spameatingmonkey.net'"
 tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.SEM_URIBL_FRESH15]
+[spam-filter.dnsbl.server.STWT_SEM_URIBL_FRESH15]
 enable = true
 zone = "value + '.fresh15.spameatingmonkey.net'"
 tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL_FRESH15'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.DWL_DNSWL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_DWL_DNSWL_DOMAIN]
 enable = true
 zone = [ { if = "location == 'dkim_pass'", then = "value + '.dwl.dnswl.org'" },
 		{ else = false } ]
@@ -351,7 +342,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.MSBL_EBL_EMAIL]
+[spam-filter.dnsbl.server.STWT_MSBL_EBL_EMAIL]
 enable = true
 zone = "hash(email, 'sha1') + '.ebl.msbl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -360,7 +351,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "email"
 
-[spam-filter.dnsbl.server.SURBL_HASHBL_DOMAIN]
+[spam-filter.dnsbl.server.STWT_SURBL_HASHBL_DOMAIN]
 enable = true
 zone = "hash(url, 'md5') + '.hashbl.surbl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -373,7 +364,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 scope = "url"
 
 
-[spam-filter.rule.FROM_SERVICE_OR_TAGGED]
+[spam-filter.rule.STWT_SVC_OR_TAGGED]
 enable = true
 scope = "any"
 priority = 10
@@ -381,14 +372,14 @@ condition = [ { if = "is_intersect(['www-data', 'anonymous', 'ftp', 'apache', 'n
               { if = "contains(from.local, '+')", then = "'TAGGED_FROM'" },
 			  { else = false } ]
 
-[spam-filter.rule.WWW_DOT_DOMAIN]
+[spam-filter.rule.STWT_WWW_DOMAIN]
 enable = true
 scope = "any"
 priority = 11
 condition = [ { if = "starts_with(from.domain, 'www.') || starts_with(reply_to.domain, 'www.')", then = "'WWW_DOT_DOMAIN'" },
 			  { else = false } ]
 
-[spam-filter.rule.HAS_TITLE]
+[spam-filter.rule.STWT_HAS_TITLE]
 enable = true
 scope = "any"
 priority = 12
@@ -396,21 +387,21 @@ condition = [ { if = "is_intersect(['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'rev.'
               { if = "is_intersect(['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'rev.', 'hon.'], split(to_lowercase(reply_to.name), ' '))", then = "'REPLYTO_EMAIL_HAS_TITLE'" },
 			  { else = false } ]
 
-[spam-filter.rule.FROM_NAME_EXCESS_SPACE]
+[spam-filter.rule.STWT_FROM_NAME_SPACE]
 enable = true
 scope = "any"
 priority = 13
 condition = [ { if = "contains(from.name, '  ')", then = "'FROM_NAME_EXCESS_SPACE'" },
 			  { else = false } ]
 
-[spam-filter.rule.BOUNCE]
+[spam-filter.rule.STWT_BOUNCE]
 enable = true
 scope = "any"
 priority = 14
 condition = [ { if = "is_empty(env_from) && ($IS_DSN || $HAS_MESSAGE_PARTS || ($X_HDR_X_MDDSN_MESSAGE && contains_ignore_case(from.name, 'mdaemon')))", then = "'BOUNCE'" },
 			  { else = false } ]
 
-[spam-filter.rule.DMARC_ALLOW_BLOCK]
+[spam-filter.rule.STWT_DMARC_ALLOW_BLOCK]
 enable = true
 scope = "any"
 priority = 15
@@ -419,84 +410,84 @@ condition = [ { if = "key_exists('known-dmarc-domains', from.domain)", then = "i
 
 
 
-[spam-filter.rule.R_UNDISC_RCPT]
+[spam-filter.rule.STWT_R_UNDISC_RCPT]
 enable = true
 scope = "header"
 priority = 60
 condition = [ { if = "contains(['to', 'cc', 'bcc'], name_lower) && contains(raw_lower, 'undisclosed')", then = "'R_UNDISC_RCPT'" },
 			  { else = false } ]
 
-[spam-filter.rule.HAS_X_AS]
+[spam-filter.rule.STWT_HAS_X_AS]
 enable = true
 scope = "header"
 priority = 61
 condition = [ { if = "name_lower == 'x-authenticated-sender' && contains(value, ': ')", then = "'HAS_X_AS'" },
 			  { else = false } ]
 
-[spam-filter.rule.HAS_X_GMSV]
+[spam-filter.rule.STWT_HAS_X_GMSV]
 enable = true
 scope = "header"
 priority = 62
 condition = [ { if = "name_lower == 'x-get-message-sender-via' && contains(value_lower, 'authenticated_id:')", then = "'HAS_X_GMSV'" },
 			  { else = false } ]
 
-[spam-filter.rule.HIDDEN_SOURCE_OBJ]
+[spam-filter.rule.STWT_HIDDEN_SOURCE_OBJ]
 enable = true
 scope = "header"
 priority = 63
 condition = [ { if = "contains(['x-source', 'x-source-args', 'x-source-dir'], name_lower) && contains(value, '../')", then = "'HIDDEN_SOURCE_OBJ'" },
 			  { else = false } ]
 
-[spam-filter.rule.X_PHP_EVAL]
+[spam-filter.rule.STWT_X_PHP_EVAL]
 enable = true
 scope = "header"
 priority = 64
 condition = [ { if = "contains(value_lower, 'eval()') && contains(['x-php-originating-script', 'x-php-script'], name_lower)", then = "'X_PHP_EVAL'" },
 			  { else = false } ]
 
-[spam-filter.rule.HIDDEN_SOURCE_PHP]
+[spam-filter.rule.STWT_HIDDEN_SOURCE_PHP]
 enable = true
 scope = "header"
 priority = 65
 condition = [ { if = "contains(value, '../') && contains(['x-php-originating-script', 'x-php-script'], name_lower)", then = "'HIDDEN_SOURCE_OBJ'" },
 			  { else = false } ]
 
-[spam-filter.rule.UNITEDINTERNET_SPAM]
+[spam-filter.rule.STWT_UNITEDINTERNET_SPAM]
 enable = true
 scope = "header"
 priority = 66
 condition = [ { if = "contains(['x-ui-filterresults', 'x-ui-out-filterresults', 'x-source-dir'], name_lower) && contains(value_lower, 'junk')", then = "'UNITEDINTERNET_SPAM'" },
 			  { else = false } ]
 
-[spam-filter.rule.SPAM_FLAG]
+[spam-filter.rule.STWT_SPAM_FLAG]
 enable = true
 scope = "header"
 priority = 67
 condition = [ { if = "contains(['x-spam', 'x-spam-flag', 'x-spam-status'], name_lower) && (contains(value_lower, 'yes') || contains(value_lower, 'true') || contains(value_lower, 'spam'))", then = "'SPAM_FLAG'" },
 			  { else = false } ]
 
-[spam-filter.rule.KLMS_SPAM]
+[spam-filter.rule.STWT_KLMS_SPAM]
 enable = true
 scope = "header"
 priority = 68
 condition = [ { if = "name_lower == 'x-klms-antispam-status' && contains(value_lower, 'spam')", then = "'KLMS_SPAM'" },
 			  { else = false } ]
 
-[spam-filter.rule.XM_CASE]
+[spam-filter.rule.STWT_XM_CASE]
 enable = true
 scope = "header"
 priority = 69
 condition = [ { if = "name_lower == 'x-mailer' && name != 'X-Mailer'", then = "'XM_CASE'" },
 			  { else = false } ]
 
-[spam-filter.rule.XM_UA_NO_VERSION]
+[spam-filter.rule.STWT_XM_UA_NO_VERSION]
 enable = true
 scope = "header"
 priority = 70
 condition = [ { if = "(name_lower == 'user_agent' || name_lower == 'x-mailer') && !is_empty(value) && !has_digits(value)", then = "'XM_UA_NO_VERSION'" },
 			  { else = false } ]
 
-[spam-filter.rule.HAS_PHPMAILER_SIG]
+[spam-filter.rule.STWT_HAS_PHPMAILER_SIG]
 enable = true
 scope = "header"
 priority = 71
@@ -542,28 +533,28 @@ confidence = 1
 explanation = 2
 
 
-[spam-filter.rule.TO_DN_RECIPIENTS]
+[spam-filter.rule.STWT_TO_DN_RECIPIENTS]
 enable = true
 scope = "email"
 priority = 60
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains_ignore_case(name, 'recipient')", then = "'TO_DN_RECIPIENTS'" },
 			  { else = false } ]
 
-[spam-filter.rule.INFO_TO_INFO_LU]
+[spam-filter.rule.STWT_INFO_INFO_LU]
 enable = true
 scope = "email"
 priority = 61
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && local == 'info' && from.local == 'info' && $X_HDR_LIST_UNSUBSCRIBE", then = "'INFO_TO_INFO_LU'" },
 			  { else = false } ]
 
-[spam-filter.rule.TAGGED_RCPT]
+[spam-filter.rule.STWT_TAGGED_RCPT]
 enable = true
 scope = "email"
 priority = 62
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains(local, '+')", then = "'TAGGED_RCPT'" },
 			  { else = false } ]
 
-[spam-filter.rule.FREE_OR_DISPOSABLE]
+[spam-filter.rule.STWT_FREE_OR_DISP]
 enable = true
 scope = "email"
 priority = 63
@@ -573,7 +564,7 @@ condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bc
 			  { else = false } ]
 
 
-[spam-filter.rule.SUBJ_BOUNCE_WORDS]
+[spam-filter.rule.STWT_SUBJ_BOUNCE_WORDS]
 enable = true
 scope = "any"
 priority = 20
@@ -596,14 +587,14 @@ condition = [ { if = "(contains(subject, 'delivery') &&
          contains(subject, 'undelivered')", then = "'SUBJ_BOUNCE_WORDS'" },
 			   { else = false } ]
 
-[spam-filter.rule.BOUNCE_SUBJECT]
+[spam-filter.rule.STWT_BOUNCE_SUBJECT]
 enable = true
 scope = "any"
 priority = 21
 condition = [ { if = "!$BOUNCE && is_empty(env_from) && $SUBJ_BOUNCE_WORDS && (contains(from.local, 'postmaster') || contains(from.local, 'mailer-daemon'))", then = "'BOUNCE'" },
 			   { else = false } ]
 
-[spam-filter.rule.SUBJECT_HAS_SYMBOLS]
+[spam-filter.rule.STWT_SUBJECT_HAS_SYMBOLS]
 enable = true
 scope = "any"
 priority = 22
@@ -613,14 +604,14 @@ condition = [ { if = "ends_with(trim(subject), '!')", then = "'SUBJECT_ENDS_EXCL
               { if = "contains(subject, '?')", then = "'SUBJECT_HAS_QUESTION'" },
 			  { else = false } ]
 
-[spam-filter.rule.LONG_SUBJ]
+[spam-filter.rule.STWT_LONG_SUBJ]
 enable = true
 scope = "any"
 priority = 23
 condition = [ { if = "len(subject) > 200", then = "'LONG_SUBJ'" },
 			  { else = false } ]
 
-[spam-filter.rule.FAKE_REPLY]
+[spam-filter.rule.STWT_FAKE_REPLY]
 enable = true
 scope = "any"
 priority = 24
@@ -629,21 +620,21 @@ condition = [ { if = "contains_ignore_case(['re', 'aw', 'antw', 'sv'], split_onc
 
 
 
-[spam-filter.rule.PHISHED_OPENPHISH]
+[spam-filter.rule.STWT_PHISHED_OPEN]
 enable = true
 scope = "url"
 priority = 50
-condition = [ { if = "key_exists('open-phish', url)", then = "'PHISHED_OPENPHISH'" },
+condition = [ { if = "key_exists('stwt_openphish', url)", then = "'PHISHED_OPENPHISH'" },
 			  { else = false } ]
 
-[spam-filter.rule.PHISHED_PHISHTANK]
+[spam-filter.rule.STWT_PHISHED_TANK]
 enable = true
 scope = "url"
 priority = 51
-condition = [ { if = "key_exists('phish-tank', url)", then = "'PHISHED_PHISHTANK'" },
+condition = [ { if = "key_exists('stwt_phishtank', url)", then = "'PHISHED_PHISHTANK'" },
 			  { else = false } ]
 
-[spam-filter.rule.HAS_GOOGLE_URL]
+[spam-filter.rule.STWT_HAS_GOOGLE_URL]
 enable = true
 scope = "url"
 priority = 52
@@ -652,7 +643,7 @@ condition = [ { if = "ends_with(host, 'googleusercontent.com') && starts_with(pa
               { if = "starts_with(sld, 'google.') && contains(path_query, 'url?')", then = "'HAS_GOOGLE_REDIR'" },
     		  { else = false } ]
 
-[spam-filter.rule.HAS_IPFS_OR_ONION_URI]
+[spam-filter.rule.STWT_IPFS_OR_ONION]
 enable = true
 scope = "url"
 priority = 53
@@ -660,7 +651,7 @@ condition = [ { if = "(contains(host, 'ipfs.') || contains(path_query, '/ipfs'))
               { if = "ends_with(host, '.onion')", then = "'HAS_ONION_URI'" }, 
 			  { else = false } ]
 
-[spam-filter.rule.WP_COMPROMISED]
+[spam-filter.rule.STWT_WP_COMPROMISED]
 enable = true
 scope = "url"
 priority = 54
@@ -668,14 +659,14 @@ condition = [ { if = "starts_with(path, '/wp-content') || starts_with(path, '/wp
               { if = "starts_with(path, '/wp-')", then = "'HAS_WP_URI'" }, 
 			  { else = false } ]
 
-[spam-filter.rule.URI_HIDDEN_PATH]
+[spam-filter.rule.STWT_URI_HIDDEN_PATH]
 enable = true
 scope = "url"
 priority = 55
 condition = [ { if = "contains(path_query, '/../') && !contains(path_query, '/well-known') && !contains(path_query, '/well_known')", then = "'URI_HIDDEN_PATH'" },
 			  { else = false } ]
 
-[http-lookup.open-phish]
+[http-lookup.STWT_OPENPHISH]
 enable = true
 url = "https://openphish.com/feed.txt"
 format = "list"
@@ -686,7 +677,7 @@ limits.size = 104857600
 limits.entries = 100000
 limits.entry-size = 512
 
-[http-lookup.phish-tank]
+[http-lookup.STWT_PHISHTANK]
 enable = true
 url = "http://data.phishtank.com/data/online-valid.csv.gz"
 format = "csv"
@@ -6071,7 +6062,7 @@ known-dmarc-domains = {"18f.gov",
 [spam-filter.list]
 scores = {"ABUSE_SURBL" = "5.0",
 "ALLOWLIST_DMARC" = "-7.0",
-"ARC_ALLOW" = "-1.0",
+"ARC_ALLOW" = "0.0",
 "ARC_DNSFAIL" = "0.0",
 "ARC_INVALID" = "0.5",
 "ARC_NA" = "0.0",
