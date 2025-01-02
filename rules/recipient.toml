@@ -23,7 +23,7 @@ condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains(local,
 enable = true
 scope = "email"
 priority = 63
-condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bcc'], location) || is_empty(sld)", then = "false" },
+condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bcc', 'dnt'], location) || is_empty(sld)", then = "false" },
 			  { if = "key_exists('freemail-providers', sld)", then = "'FREEMAIL_' + to_uppercase(location)" },
 			  { if = "key_exists('disposable-providers', sld)", then = "'DISPOSABLE_' + to_uppercase(location)" },
 			  { else = false } ]

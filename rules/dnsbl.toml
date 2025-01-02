@@ -1,7 +1,7 @@
 [spam-filter.dnsbl.server.STWT_RBL_SPAMHAUS_IP]
 enable = true
 zone = "ip_reverse + '.zen.spamhaus.org'"
-tag = [ { if = "octets[0] != 127", then = "'RBL_SPAMHAUS'" },
+tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[3] == 2", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_SBL', 'RECEIVED_SPAMHAUS_SBL')" },
         { if = "octets[3] == 3", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_CSS', 'RECEIVED_SPAMHAUS_CSS')" },
         { if = "octets[3] >= 4 && octets[3] <= 7", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_XBL', 'RECEIVED_SPAMHAUS_XBL')" },
@@ -29,10 +29,47 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 scope = "ip"
 
 [spam-filter.dnsbl.server.STWT_RBL_SENDERSCORE_IP]
-enable = true
+enable = false
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
 		{ else = false } ]
-tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_SENDERSCORE'" },
+tag = [ { if = "octets[0] != 127", then = "false" },
+        { if = "octets[3] == 1", then = "'RBL_SENDERSCORE_BOT'" },
+        { if = "octets[3] == 2", then = "'RBL_SENDERSCORE_NA'" },
+        { if = "octets[3] == 3", then = "'RBL_SENDERSCORE_NA_BOT'" },
+        { if = "octets[3] == 4", then = "'RBL_SENDERSCORE_PRST'" },
+        { if = "octets[3] == 5", then = "'RBL_SENDERSCORE_PRST_BOT'" },
+        { if = "octets[3] == 6", then = "'RBL_SENDERSCORE_PRST_NA'" },
+        { if = "octets[3] == 7", then = "'RBL_SENDERSCORE_PRST_NA_BOT'" },
+        { if = "octets[3] == 8", then = "'RBL_SENDERSCORE_SUS_ATT'" },
+        { if = "octets[3] == 10", then = "'RBL_SENDERSCORE_SUS_ATT_NA'" },
+        { if = "octets[3] == 11", then = "'RBL_SENDERSCORE_SUS_ATT_NA_BOT'" },
+        { if = "octets[3] == 14", then = "'RBL_SENDERSCORE_SUS_ATT_PRST_NA'" },
+        { if = "octets[3] == 15", then = "'RBL_SENDERSCORE_SUS_ATT_PRST_NA_BOT'" },
+        { if = "octets[3] == 16", then = "'RBL_SENDERSCORE_SCORE'" },
+        { if = "octets[3] == 18", then = "'RBL_SENDERSCORE_SCORE_NA'" },
+        { if = "octets[3] == 20", then = "'RBL_SENDERSCORE_SCORE_PRST'" },
+        { if = "octets[3] == 22", then = "'RBL_SENDERSCORE_SCORE_PRST_NA'" },
+        { if = "octets[3] == 26", then = "'RBL_SENDERSCORE_SCORE_SUS_ATT_NA'" },
+        { if = "octets[3] == 255", then = "'RBL_SENDERSCORE_BLOCKED'" },
+		{ else = false } ]
+scope = "ip"
+
+[spam-filter.dnsbl.server.STWT_RBL_SENDERSCORE_REPUT_IP]
+enable = true
+zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.score.senderscore.com'" },
+		{ else = false } ]
+tag = [ { if = "octets[0] != 127", then = "false" },
+        { if = "octets[3] < 10", then = "'RBL_SENDERSCORE_REPUT_0'" },
+        { if = "octets[3] >= 10 && octets[3] <= 19", then = "'RBL_SENDERSCORE_REPUT_1'" },
+        { if = "octets[3] >= 20 && octets[3] <= 29", then = "'RBL_SENDERSCORE_REPUT_2'" },
+        { if = "octets[3] >= 30 && octets[3] <= 39", then = "'RBL_SENDERSCORE_REPUT_3'" },
+        { if = "octets[3] >= 40 && octets[3] <= 49", then = "'RBL_SENDERSCORE_REPUT_4'" },
+        { if = "octets[3] >= 50 && octets[3] <= 59", then = "'RBL_SENDERSCORE_REPUT_5'" },
+        { if = "octets[3] >= 60 && octets[3] <= 69", then = "'RBL_SENDERSCORE_REPUT_6'" },
+        { if = "octets[3] >= 70 && octets[3] <= 79", then = "'RBL_SENDERSCORE_REPUT_7'" },
+        { if = "octets[3] >= 80 && octets[3] <= 89", then = "'RBL_SENDERSCORE_REPUT_8'" },
+        { if = "octets[3] >= 90 && octets[3] <= 100", then = "'RBL_SENDERSCORE_REPUT_9'" },
+        { if = "octets[3] == 255", then = "'RBL_SENDERSCORE_REPUT_BLOCKED'" },
 		{ else = false } ]
 scope = "ip"
 
@@ -118,21 +155,23 @@ scope = "domain"
 [spam-filter.dnsbl.server.STWT_SURBL_DOMAIN]
 enable = true
 zone = "value + '.multi.surbl.org'"
-tag = [ { if = "ip == '127.0.0.128'", then = "'CRACKED_SURBL'" },
-        { if = "ip == '127.0.0.64'", then = "'ABUSE_SURBL'" },
-        { if = "ip == '127.0.0.18'", then = "'MW_SURBL_MULTI'" },
-        { if = "ip == '127.0.0.8'", then = "'PH_SURBL_MULTI'" },
-        { if = "ip == '127.0.0.1'", then = "'SURBL_BLOCKED'" },
+tag = [ { if = "octets[3] == 128", then = "'CRACKED_SURBL'" },
+        { if = "octets[3] == 64", then = "'ABUSE_SURBL'" },
+        { if = "octets[3] == 32", then = "'CT_SURBL'" },
+        { if = "octets[3] == 18", then = "'MW_SURBL_MULTI'" },
+        { if = "octets[3] == 8", then = "'PH_SURBL_MULTI'" },
+        { if = "octets[3] == 4", then = "'DM_SURBL'" },
+        { if = "octets[3] == 1", then = "'SURBL_BLOCKED'" },
 		{ else = false } ]
 scope = "domain"
 
 [spam-filter.dnsbl.server.STWT_URIBL_DOMAIN]
 enable = true
 zone = "value + '.multi.uribl.com'"
-tag = [ { if = "ip == '127.0.0.1'", then = "'URIBL_BLOCKED'" },
-        { if = "ip == '127.0.0.2'", then = "'URIBL_BLACK'" },
-        { if = "ip == '127.0.0.4'", then = "'URIBL_GREY'" },
-        { if = "ip == '127.0.0.8'", then = "'URIBL_RED'" },
+tag = [ { if = "octets[3] == 1", then = "'URIBL_BLOCKED'" },
+        { if = "octets[3] == 2", then = "'URIBL_BLACK'" },
+        { if = "octets[3] == 4", then = "'URIBL_GREY'" },
+        { if = "octets[3] == 8", then = "'URIBL_RED'" },
 		{ else = false } ]
 scope = "domain"
 
@@ -174,7 +213,8 @@ scope = "email"
 
 [spam-filter.dnsbl.server.STWT_SURBL_HASHBL_DOMAIN]
 enable = true
-zone = "hash(url, 'md5') + '.hashbl.surbl.org'"
+zone = [ { if = "key_exists('surbl-hashbl', host)", then = "hash(host + path, 'md5') + '.hashbl.surbl.org'" },
+		{ else = false } ]
 tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[3] == 8", then = "'SURBL_HASHBL_PHISH'" },
         { if = "octets[3] == 16", then = "'SURBL_HASHBL_MALWARE'" },

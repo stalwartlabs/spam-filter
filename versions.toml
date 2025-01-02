@@ -1,0 +1,3 @@
+[version]
+spam-filter = "2.0.0"
+server = "0.11.0"

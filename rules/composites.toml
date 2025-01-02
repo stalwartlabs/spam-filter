@@ -58,7 +58,7 @@ condition = [ { if = "($X_HDR_X_PHP_ORIGINATING_SCRIPT || $HAS_PHPMAILER_SIG) &&
 enable = true
 scope = "any"
 priority = 1008
-condition = [ { if = "($X_HDR_X_ORIGINATING_IP || $RCVD_FROM_SMTP_AUTH) && $DCC_BULK", then = "'COMPROMISED_ACCT_BULK'" },
+condition = [ { if = "($X_HDR_X_ORIGINATING_IP || $RCVD_VIA_SMTP_AUTH) && $DCC_BULK", then = "'COMPROMISED_ACCT_BULK'" },
  			  { else = false } ]
 
 [spam-filter.rule.STWT_UNDISC_RCPTS_BULK]
@@ -121,7 +121,7 @@ condition = [ { if = "($SPF_FAIL || $SPF_SOFTFAIL) && ($RCVD_COUNT_ZERO || $RCVD
 enable = true
 scope = "any"
 priority = 1017
-condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENVFROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
+condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENV_FROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
  			  { else = false } ]
 
 [spam-filter.rule.STWT_REDIRECTOR_URL_ONLY]
@@ -157,4 +157,46 @@ enable = true
 scope = "any"
 priority = 1022
 condition = [ { if = "$FREEMAIL_REPLY_TO && from.domain != reply_to.domain", then = "'FREEMAIL_REPLY_TO_NEQ_FROM_DOM'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_SUSPICIOUS_MDN]
+enable = true
+scope = "any"
+priority = 1023
+condition = [ { if = "($FREEMAIL_DNT || $DISPOSABLE_DNT) && !($FREEMAIL_FROM || $FREEMAIL_ENV_FROM)", then = "'SUSPICIOUS_MDN'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_SUSPICIOUS_AUTH_ORIGIN]
+enable = true
+scope = "any"
+priority = 1024
+condition = [ { if = "($X_HDR_X_ORIGINATING_IP || $RCVD_VIA_SMTP_AUTH) && ($RECEIVED_SPAMHAUS_PBL || $RECEIVED_SPAMHAUS_XBL || $RECEIVED_SPAMHAUS_SBL || $RECEIVED_BLOCKLISTDE)", then = "'SUSPICIOUS_AUTH_ORIGIN'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_SABUSE_FROM_INJECTOR]
+enable = true
+scope = "any"
+priority = 1025
+condition = [ { if = "$SUSPICIOUS_AUTH_ORIGIN && ($RCVD_HELO_USER || $FAKE_REPLY || $HAS_IPFS_GATEWAY_URL || $HTML_SHORT_LINK_IMG_1)", then = "'ABUSE_FROM_INJECTOR'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_MIME_BAD_EXT_WITH_BAD_UNICODE]
+enable = true
+scope = "any"
+priority = 1026
+condition = [ { if = "$MIME_BAD_EXTENSION && $MIME_BAD_UNICODE", then = "'MIME_BAD_EXT_WITH_BAD_UNICODE'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_HAS_SEO_WORD]
+enable = true
+scope = "any"
+priority = 1027
+condition = [ { if = "contains(subject.words, 'SEO') || contains(body.words, 'SEO')", then = "'HAS_SEO_WORD'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_SEO_SPAM]
+enable = true
+scope = "any"
+priority = 1028
+condition = [ { if = "$HAS_SEO_WORD && ($RCPT_DOMAIN_IN_BODY || $RCPT_IN_BODY || $FREEMAIL_FROM)", then = "'SEO_SPAM'" },
 			  { else = false } ]
