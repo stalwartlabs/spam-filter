@@ -65,7 +65,7 @@ condition = [ { if = "($X_HDR_X_ORIGINATING_IP || $RCVD_VIA_SMTP_AUTH) && $DCC_B
 enable = true
 scope = "any"
 priority = 1009
-condition = [ { if = "$DCC_BULK && ($MISSING_TO || $R_UNDISC_RCPT)", then = "'UNDISC_RCPTS_BULK'" },
+condition = [ { if = "$DCC_BULK && ($MISSING_TO || $UNDISC_RCPT)", then = "'UNDISC_RCPTS_BULK'" },
  			  { else = false } ]
 
 [spam-filter.rule.STWT_RCVD_UNAUTH_PBL]
@@ -121,7 +121,7 @@ condition = [ { if = "($SPF_FAIL || $SPF_SOFTFAIL) && ($RCVD_COUNT_ZERO || $RCVD
 enable = true
 scope = "any"
 priority = 1017
-condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENV_FROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $R_UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
+condition = [ { if = "($FREEMAIL_FROM || $FREEMAIL_ENV_FROM || $FREEMAIL_REPLY_TO) && ($TO_DN_RECIPIENTS || $UNDISC_RCPT) && ($FROM_NAME_HAS_TITLE || $FREEMAIL_REPLY_TO_NEQ_FROM_DOM)", then = "'FREEMAIL_AFF'" },
  			  { else = false } ]
 
 [spam-filter.rule.STWT_REDIRECTOR_URL_ONLY]
@@ -199,4 +199,21 @@ enable = true
 scope = "any"
 priority = 1028
 condition = [ { if = "$HAS_SEO_WORD && ($RCPT_DOMAIN_IN_BODY || $RCPT_IN_BODY || $FREEMAIL_FROM)", then = "'SEO_SPAM'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_DIRECT_TO_MX]
+enable = true
+scope = "any"
+priority = 1029
+condition = [ { if = "$RCVD_COUNT_ZERO && !$RCVD_VIA_SMTP_AUTH && ($X_HDR_USER_AGENT || $X_HDR_X_MAILER)", then = "'DIRECT_TO_MX'" },
+			  { else = false } ]
+
+[spam-filter.rule.STWT_SHORT_LINK_IMG]
+enable = true
+scope = "any"
+priority = 1030
+condition = [ { if = "!$HAS_LINK_TO_LARGE_IMG", then = "false" },
+			  { if = "$HTML_SHORT_1", then = "'HTML_SHORT_LINK_IMG_1'" },
+			  { if = "$HTML_SHORT_2", then = "'HTML_SHORT_LINK_IMG_2'" },
+			  { if = "$HTML_SHORT_3", then = "'HTML_SHORT_LINK_IMG_3'" },
 			  { else = false } ]

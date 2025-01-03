@@ -2,7 +2,7 @@
 enable = true
 scope = "header"
 priority = 60
-condition = [ { if = "contains(['to', 'cc', 'bcc'], name_lower) && contains(raw_lower, 'undisclosed')", then = "'R_UNDISC_RCPT'" },
+condition = [ { if = "contains(['to', 'cc', 'bcc'], name_lower) && contains(raw_lower, 'undisclosed')", then = "'UNDISC_RCPT'" },
 			  { else = false } ]
 
 [spam-filter.rule.STWT_HAS_X_AS]
