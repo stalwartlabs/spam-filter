@@ -35,10 +35,10 @@ priority = 14
 condition = [ { if = "is_empty(env_from) && ($IS_DSN || $HAS_MESSAGE_PARTS || ($X_HDR_X_MDDSN_MESSAGE && contains_ignore_case(from.name, 'mdaemon')))", then = "'BOUNCE'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_DMARC_ALLOW_BLOCK]
+[spam-filter.rule.STWT_RCPT_DOMAIN_IN_MESSAGE]
 enable = true
 scope = "any"
 priority = 15
-condition = [ { if = "key_exists('known-dmarc-domains', from.domain)", then = "if_then($DMARC_POLICY_ALLOW, 'ALLOWLIST_DMARC', 'BLOCKLIST_DMARC')" },
+condition = [ { if = "$RCPT_DOMAIN_IN_SUBJECT && ($RCPT_DOMAIN_IN_BODY || $RCPT_IN_BODY)", then = "'RCPT_DOMAIN_IN_MESSAGE'" },
 			  { else = false } ]
 
