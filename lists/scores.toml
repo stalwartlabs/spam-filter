@@ -394,4 +394,5 @@ scores = {"ABUSE_SURBL" = "5.0",
 "ABUSE_FROM_INJECTOR" = "2.0",
 "MIME_BAD_EXT_WITH_BAD_UNICODE" = "8.0",
 "HAS_SEO_WORD" = "0.0",
-"SEO_SPAM" = "5.0"}
+"SEO_SPAM" = "5.0",
+"TRUSTED_DOMAIN" = "-7.0"}

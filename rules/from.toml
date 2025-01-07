@@ -42,3 +42,10 @@ priority = 15
 condition = [ { if = "$RCPT_DOMAIN_IN_SUBJECT && ($RCPT_DOMAIN_IN_BODY || $RCPT_IN_BODY)", then = "'RCPT_DOMAIN_IN_MESSAGE'" },
 			  { else = false } ]
 
+[spam-filter.rule.STWT_TRUSTED_DOMAIN]
+enable = true
+scope = "any"
+priority = 15
+condition = [ { if = "$DMARC_POLICY_ALLOW && key_exists('trusted-domains', from.domain)", then = "'TRUSTED_DOMAIN'" },
+			  { else = false } ]
+
