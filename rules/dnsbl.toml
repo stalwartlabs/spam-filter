@@ -90,14 +90,6 @@ tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_VIRUSFREE_BOTNET'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_NIXSPAM_IP]
-enable = true
-zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.ix.dnsbl.manitu.net'" },
-		{ else = false } ]
-tag = [ { if = "!is_empty(ip)", then = "'RBL_NIXSPAM'" },
-		{ else = false } ]
-scope = "ip"
-
 [spam-filter.dnsbl.server.STWT_RBL_SPAMCOP_IP]
 enable = true
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.spamcop.net'" },
