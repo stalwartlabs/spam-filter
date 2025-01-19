@@ -24,6 +24,6 @@ enable = true
 scope = "email"
 priority = 63
 condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bcc', 'dnt'], location) || is_empty(sld)", then = "false" },
-			  { if = "key_exists('freemail-providers', sld)", then = "'FREEMAIL_' + to_uppercase(location)" },
-			  { if = "key_exists('disposable-providers', sld)", then = "'DISPOSABLE_' + to_uppercase(location)" },
+			  { if = "key_exists('stwt_free_domains', domain)", then = "'FREEMAIL_' + to_uppercase(location)" },
+			  { if = "key_exists('stwt_disposable_domains', domain)", then = "'DISPOSABLE_' + to_uppercase(location)" },
 			  { else = false } ]
