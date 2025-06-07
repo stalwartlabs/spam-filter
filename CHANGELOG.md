@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.3] - 2025-06-07
+
+### Added
+- Tag `BLOCKED_DOMAIN`.
+
+### Changed
+
+### Fixed
+
 ## [2.0.2] - 2025-01-19
 
 ### Added
