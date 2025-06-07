@@ -45,7 +45,13 @@ condition = [ { if = "$RCPT_DOMAIN_IN_SUBJECT && ($RCPT_DOMAIN_IN_BODY || $RCPT_
 [spam-filter.rule.STWT_TRUSTED_DOMAIN]
 enable = true
 scope = "any"
-priority = 15
+priority = 16
 condition = [ { if = "$DMARC_POLICY_ALLOW && key_exists('trusted-domains', from.domain)", then = "'TRUSTED_DOMAIN'" },
 			  { else = false } ]
 
+[spam-filter.rule.STWT_BLOCKED_DOMAIN]
+enable = true
+scope = "any"
+priority = 17
+condition = [ { if = "key_exists('blocked-domains', from.domain)", then = "'BLOCKED_DOMAIN'" },
+			  { else = false } ]
