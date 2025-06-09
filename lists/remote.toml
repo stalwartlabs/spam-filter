@@ -11,7 +11,7 @@ limits.entry-size = 512
 
 [http-lookup.STWT_PHISHTANK]
 enable = true
-url = "http://data.phishtank.com/data/online-valid.csv.gz"
+url = "https://data.phishtank.com/data/online-valid.csv.gz"
 format = "csv"
 separator = ","
 index.key = 1
