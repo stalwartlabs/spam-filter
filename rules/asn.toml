@@ -8,4 +8,4 @@ max-size = 104857600
 asn = [ "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv4.csv", 
         "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv6.csv" ]
 geo = [ "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv", 
-        "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv" ]
+        "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv6.csv" ]
