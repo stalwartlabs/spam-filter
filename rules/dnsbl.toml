@@ -150,7 +150,7 @@ zone = "value + '.multi.surbl.org'"
 tag = [ { if = "octets[3] == 128", then = "'CRACKED_SURBL'" },
         { if = "octets[3] == 64", then = "'ABUSE_SURBL'" },
         { if = "octets[3] == 32", then = "'CT_SURBL'" },
-        { if = "octets[3] == 18", then = "'MW_SURBL_MULTI'" },
+        { if = "octets[3] == 16", then = "'MW_SURBL_MULTI'" },
         { if = "octets[3] == 8", then = "'PH_SURBL_MULTI'" },
         { if = "octets[3] == 4", then = "'DM_SURBL'" },
         { if = "octets[3] == 1", then = "'SURBL_BLOCKED'" },
