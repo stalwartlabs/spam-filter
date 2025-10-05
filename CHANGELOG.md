@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.4] - 2025-10-05
+
+### Added
+
+### Changed
+- Update `STWT_PHISHTANK` url to use https.
+- Download geolite2 ipv4 and ipv6 csv files.
+- Remove `gmail.com` and other free mail services from trusted domains.
+
+### Fixed
+- Update `MW_SURBL_MULTI` compare to match official documentation.
+
+
 ## [2.0.3] - 2025-06-07
 
 ### Added
