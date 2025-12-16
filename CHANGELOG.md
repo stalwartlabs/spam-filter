@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.5] - 2025-12-16
+
+### Added
+
+- `PROB_SPAM_*` and `PROB_HAM_*` scores.
+
+### Changed
+
+- Update `SPAM_TRAP` score from `discard` to `15.0`.
+
+### Fixed
+
 ## [2.0.4] - 2025-10-05
 
 ### Added
@@ -13,7 +25,6 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Fixed
 - Update `MW_SURBL_MULTI` compare to match official documentation.
-
 
 ## [2.0.3] - 2025-06-07
 
