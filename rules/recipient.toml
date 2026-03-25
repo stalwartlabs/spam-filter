@@ -1,26 +1,22 @@
-[spam-filter.rule.STWT_TO_DN_RECIPIENTS]
-enable = true
+[rule.STWT_TO_DN_RECIPIENTS]
 scope = "email"
 priority = 60
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains_ignore_case(name, 'recipient')", then = "'TO_DN_RECIPIENTS'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_INFO_INFO_LU]
-enable = true
+[rule.STWT_INFO_INFO_LU]
 scope = "email"
 priority = 61
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && local == 'info' && from.local == 'info' && $X_HDR_LIST_UNSUBSCRIBE", then = "'INFO_TO_INFO_LU'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_TAGGED_RCPT]
-enable = true
+[rule.STWT_TAGGED_RCPT]
 scope = "email"
 priority = 62
 condition = [ { if = "contains(['to', 'cc', 'bcc'], location) && contains(local, '+')", then = "'TAGGED_RCPT'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_FREE_OR_DISP]
-enable = true
+[rule.STWT_FREE_OR_DISP]
 scope = "email"
 priority = 63
 condition = [ { if = "!contains(['env_from', 'from', 'reply_to', 'to', 'cc', 'bcc', 'dnt'], location) || is_empty(sld)", then = "false" },

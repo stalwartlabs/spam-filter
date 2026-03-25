@@ -1,56 +1,48 @@
-[spam-filter.rule.STWT_SVC_OR_TAGGED]
-enable = true
+[rule.STWT_SVC_OR_TAGGED]
 scope = "any"
 priority = 10
 condition = [ { if = "is_intersect(['www-data', 'anonymous', 'ftp', 'apache', 'nobody', 'guest', 'nginx', 'web', 'www'], [from.local, env_from.local, reply_to.local])", then = "'FROM_SERVICE_ACCT'" },
               { if = "contains(from.local, '+')", then = "'TAGGED_FROM'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_WWW_DOMAIN]
-enable = true
+[rule.STWT_WWW_DOMAIN]
 scope = "any"
 priority = 11
 condition = [ { if = "starts_with(from.domain, 'www.') || starts_with(reply_to.domain, 'www.')", then = "'WWW_DOT_DOMAIN'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_HAS_TITLE]
-enable = true
+[rule.STWT_HAS_TITLE]
 scope = "any"
 priority = 12
 condition = [ { if = "is_intersect(['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'rev.', 'hon.'], split(to_lowercase(from.name), ' '))", then = "'FROM_NAME_HAS_TITLE'" },
               { if = "is_intersect(['mr.', 'mrs.', 'ms.', 'dr.', 'prof.', 'rev.', 'hon.'], split(to_lowercase(reply_to.name), ' '))", then = "'REPLYTO_EMAIL_HAS_TITLE'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_FROM_NAME_SPACE]
-enable = true
+[rule.STWT_FROM_NAME_SPACE]
 scope = "any"
 priority = 13
 condition = [ { if = "contains(from.name, '  ')", then = "'FROM_NAME_EXCESS_SPACE'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_BOUNCE]
-enable = true
+[rule.STWT_BOUNCE]
 scope = "any"
 priority = 14
 condition = [ { if = "is_empty(env_from) && ($IS_DSN || $HAS_MESSAGE_PARTS || ($X_HDR_X_MDDSN_MESSAGE && contains_ignore_case(from.name, 'mdaemon')))", then = "'BOUNCE'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_RCPT_DOMAIN_IN_MESSAGE]
-enable = true
+[rule.STWT_RCPT_DOMAIN_IN_MESSAGE]
 scope = "any"
 priority = 15
 condition = [ { if = "$RCPT_DOMAIN_IN_SUBJECT && ($RCPT_DOMAIN_IN_BODY || $RCPT_IN_BODY)", then = "'RCPT_DOMAIN_IN_MESSAGE'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_TRUSTED_DOMAIN]
-enable = true
+[rule.STWT_TRUSTED_DOMAIN]
 scope = "any"
 priority = 16
 condition = [ { if = "$DMARC_POLICY_ALLOW && key_exists('trusted-domains', from.domain)", then = "'TRUSTED_DOMAIN'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_BLOCKED_DOMAIN]
-enable = true
+[rule.STWT_BLOCKED_DOMAIN]
 scope = "any"
 priority = 17
 condition = [ { if = "key_exists('blocked-domains', from.domain)", then = "'BLOCKED_DOMAIN'" },

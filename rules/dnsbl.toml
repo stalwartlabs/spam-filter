@@ -1,5 +1,4 @@
-[spam-filter.dnsbl.server.STWT_RBL_SPAMHAUS_IP]
-enable = true
+[dnsbl.STWT_RBL_SPAMHAUS_IP]
 zone = "ip_reverse + '.zen.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[3] == 2", then = "if_then(location == 'tcp', 'RBL_SPAMHAUS_SBL', 'RECEIVED_SPAMHAUS_SBL')" },
@@ -12,8 +11,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_MAILSPIKE_IP]
-enable = true
+[dnsbl.STWT_RBL_MAILSPIKE_IP]
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.rep.mailspike.net'" },
 		{ else = false } ]
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -28,7 +26,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_SENDERSCORE_IP]
+[dnsbl.STWT_RBL_SENDERSCORE_IP]
 enable = false
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.score.senderscore.com'" },
 		{ else = false } ]
@@ -54,8 +52,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_SENDERSCORE_REPUT_IP]
-enable = true
+[dnsbl.STWT_RBL_SENDERSCORE_REPUT_IP]
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.score.senderscore.com'" },
 		{ else = false } ]
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -73,8 +70,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_SEM_IP]
-enable = true
+[dnsbl.STWT_RBL_SEM_IP]
 zone = [ { if = "location == 'tcp' && is_v4", then = "ip_reverse + '.bl.spameatingmonkey.net'" },
         { if = "location == 'tcp' && is_v6", then = "ip_reverse + '.bl.ipv6.spameatingmonkey.net'" },
 		{ else = false } ]
@@ -82,40 +78,35 @@ tag = [ { if = "!is_empty(ip)", then = "'RBL_SEM'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_VIRUSFREE_IP]
-enable = true
+[dnsbl.STWT_RBL_VIRUSFREE_IP]
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bip.virusfree.cz'" },
 		{ else = false } ]
 tag = [ { if = "ip == '127.0.0.2'", then = "'RBL_VIRUSFREE_BOTNET'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_SPAMCOP_IP]
-enable = true
+[dnsbl.STWT_RBL_SPAMCOP_IP]
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.bl.spamcop.net'" },
 		{ else = false } ]
 tag = [ { if = "!is_empty(ip)", then = "'RBL_SPAMCOP'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_BARRACUDA_IP]
-enable = true
+[dnsbl.STWT_RBL_BARRACUDA_IP]
 zone = [ { if = "location == 'tcp'", then = "ip_reverse + '.b.barracudacentral.org'" },
 		{ else = false } ]
 tag = [ { if = "!is_empty(ip)", then = "'RBL_BARRACUDA'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_RBL_BLOCKLISTDE_IP]
-enable = true
+[dnsbl.STWT_RBL_BLOCKLISTDE_IP]
 zone = "ip_reverse + '.bl.blocklist.de'"
 tag = [ { if = "!is_empty(ip) && location == 'tcp'", then = "'RBL_BLOCKLISTDE'" },
         { if = "!is_empty(ip)", then = "'RECEIVED_BLOCKLISTDE'" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_DNSWL_IP]
-enable = true
+[dnsbl.STWT_DNSWL_IP]
 zone = "ip_reverse + '.list.dnswl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[3] == 0", then = "'RCVD_IN_DNSWL_NONE'" },
@@ -126,8 +117,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "ip"
 
-[spam-filter.dnsbl.server.STWT_DBL_SPAMHAUS_DOMAIN]
-enable = true
+[dnsbl.STWT_DBL_SPAMHAUS_DOMAIN]
 zone = "value + '.dbl.spamhaus.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[3] == 2", then = "'DBL_SPAM'" },
@@ -144,8 +134,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.STWT_SURBL_DOMAIN]
-enable = true
+[dnsbl.STWT_SURBL_DOMAIN]
 zone = "value + '.multi.surbl.org'"
 tag = [ { if = "octets[3] == 128", then = "'CRACKED_SURBL'" },
         { if = "octets[3] == 64", then = "'ABUSE_SURBL'" },
@@ -157,8 +146,7 @@ tag = [ { if = "octets[3] == 128", then = "'CRACKED_SURBL'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.STWT_URIBL_DOMAIN]
-enable = true
+[dnsbl.STWT_URIBL_DOMAIN]
 zone = "value + '.multi.uribl.com'"
 tag = [ { if = "octets[3] == 1", then = "'URIBL_BLOCKED'" },
         { if = "octets[3] == 2", then = "'URIBL_BLACK'" },
@@ -167,22 +155,19 @@ tag = [ { if = "octets[3] == 1", then = "'URIBL_BLOCKED'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.STWT_SEM_URIBL]
-enable = true
+[dnsbl.STWT_SEM_URIBL]
 zone = "value + '.uribl.spameatingmonkey.net'"
 tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.STWT_SEM_URIBL_FRESH15]
-enable = true
+[dnsbl.STWT_SEM_URIBL_FRESH15]
 zone = "value + '.fresh15.spameatingmonkey.net'"
 tag = [ { if = "ip == '127.0.0.2'", then = "'SEM_URIBL_FRESH15'" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.STWT_DWL_DNSWL_DOMAIN]
-enable = true
+[dnsbl.STWT_DWL_DNSWL_DOMAIN]
 zone = [ { if = "location == 'dkim_pass'", then = "value + '.dwl.dnswl.org'" },
 		{ else = false } ]
 tag = [ { if = "octets[0] != 127", then = "false" },
@@ -194,8 +179,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "domain"
 
-[spam-filter.dnsbl.server.STWT_MSBL_EBL_EMAIL]
-enable = true
+[dnsbl.STWT_MSBL_EBL_EMAIL]
 zone = "hash(email, 'sha1') + '.ebl.msbl.org'"
 tag = [ { if = "octets[0] != 127", then = "false" },
         { if = "octets[2] == 0 && (octets[3] == 2 || octets[3] == 3)", then = "'MSBL_EBL'" },
@@ -203,8 +187,7 @@ tag = [ { if = "octets[0] != 127", then = "false" },
 		{ else = false } ]
 scope = "email"
 
-[spam-filter.dnsbl.server.STWT_SURBL_HASHBL_DOMAIN]
-enable = true
+[dnsbl.STWT_SURBL_HASHBL_DOMAIN]
 zone = [ { if = "key_exists('surbl-hashbl', host)", then = "hash(host + path, 'md5') + '.hashbl.surbl.org'" },
 		{ else = false } ]
 tag = [ { if = "octets[0] != 127", then = "false" },

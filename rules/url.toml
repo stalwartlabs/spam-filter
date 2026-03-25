@@ -1,19 +1,16 @@
-[spam-filter.rule.STWT_PHISHED_OPEN]
-enable = true
+[rule.STWT_PHISHED_OPEN]
 scope = "url"
 priority = 50
 condition = [ { if = "key_exists('stwt_openphish', url)", then = "'PHISHED_OPENPHISH'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_PHISHED_TANK]
-enable = true
+[rule.STWT_PHISHED_TANK]
 scope = "url"
 priority = 51
 condition = [ { if = "key_exists('stwt_phishtank', url)", then = "'PHISHED_PHISHTANK'" },
 			  { else = false } ]
 
-[spam-filter.rule.STWT_HAS_GOOGLE_URL]
-enable = true
+[rule.STWT_HAS_GOOGLE_URL]
 scope = "url"
 priority = 52
 condition = [ { if = "ends_with(host, 'googleusercontent.com') && starts_with(path_query, '/proxy/')", then = "'HAS_GUC_PROXY_URI'" },
@@ -21,24 +18,21 @@ condition = [ { if = "ends_with(host, 'googleusercontent.com') && starts_with(pa
               { if = "starts_with(sld, 'google.') && contains(path_query, 'url?')", then = "'HAS_GOOGLE_REDIR'" },
     		  { else = false } ]
 
-[spam-filter.rule.STWT_IPFS_OR_ONION]
-enable = true
+[rule.STWT_IPFS_OR_ONION]
 scope = "url"
 priority = 53
 condition = [ { if = "(contains(host, 'ipfs.') || contains(path_query, '/ipfs')) && contains(path_query, '/qm')", then = "'HAS_IPFS_GATEWAY_URL'" },
               { if = "ends_with(host, '.onion')", then = "'HAS_ONION_URI'" }, 
 			  { else = false } ]
 
-[spam-filter.rule.STWT_WP_COMPROMISED]
-enable = true
+[rule.STWT_WP_COMPROMISED]
 scope = "url"
 priority = 54
 condition = [ { if = "starts_with(path, '/wp-content') || starts_with(path, '/wp-includes')", then = "'WP_COMPROMISED'" },
               { if = "starts_with(path, '/wp-')", then = "'HAS_WP_URI'" }, 
 			  { else = false } ]
 
-[spam-filter.rule.STWT_URI_HIDDEN_PATH]
-enable = true
+[rule.STWT_URI_HIDDEN_PATH]
 scope = "url"
 priority = 55
 condition = [ { if = "contains(path_query, '/../') && !contains(path_query, '/well-known') && !contains(path_query, '/well_known')", then = "'URI_HIDDEN_PATH'" },

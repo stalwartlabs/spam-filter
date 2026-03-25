@@ -1,47 +1,43 @@
-[http-lookup.STWT_OPENPHISH]
-enable = true
+[http-list.STWT_OPENPHISH]
 url = "https://openphish.com/feed.txt"
 format = "list"
-retry = "1h"
-refresh = "12h"
-timeout = "30s"
+retry = 3600000
+refresh = 43200000
+timeout = 30000
 limits.size = 104857600
 limits.entries = 900000
 limits.entry-size = 512
 
-[http-lookup.STWT_PHISHTANK]
-enable = true
+[http-list.STWT_PHISHTANK]
 url = "https://data.phishtank.com/data/online-valid.csv.gz"
 format = "csv"
 separator = ","
 index.key = 1
 skip-first = true
 gzipped = true
-retry = "1h"
-refresh = "6h"
-timeout = "30s"
+retry = 3600000
+refresh = 21600000
+timeout = 30000
 limits.size = 104857600
 limits.entries = 900000
 limits.entry-size = 512
 
-[http-lookup.STWT_DISPOSABLE_DOMAINS]
-enable = true
+[http-list.STWT_DISPOSABLE_DOMAINS]
 url = "https://disposable.github.io/disposable-email-domains/domains_mx.txt"
 format = "list"
-retry = "1h"
-refresh = "24h"
-timeout = "30s"
+retry = 3600000
+refresh = 86400000
+timeout = 30000
 limits.size = 104857600
 limits.entries = 900000
 limits.entry-size = 512
 
-[http-lookup.STWT_FREE_DOMAINS]
-enable = true
+[http-list.STWT_FREE_DOMAINS]
 url = "https://gist.githubusercontent.com/okutbay/5b4974b70673dfdcc21c517632c1f984/raw/993a35930a8d24a1faab1b988d19d38d92afbba4/free_email_provider_domains.txt"
 format = "list"
-retry = "1h"
-refresh = "720h"
-timeout = "30s"
+retry = 3600000
+refresh = 2592000000
+timeout = 30000
 limits.size = 104857600
 limits.entries = 900000
 limits.entry-size = 512
