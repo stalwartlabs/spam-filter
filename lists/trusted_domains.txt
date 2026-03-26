@@ -423,6 +423,7 @@ isbankkosova.com
 isc.org
 itau.com.br
 ivillage.com
+jmap.cloud
 joingevalia.com
 jpmchase.com
 jpmorgan.com
@@ -695,6 +696,8 @@ sparkasse.de
 sparkasseblog.de
 speedera.net
 sportsline.com
+stalw.art
+stalwart.email
 standardbank.co.za
 standardbank.com
 standardchartered.com.gh

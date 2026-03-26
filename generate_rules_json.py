@@ -260,6 +260,7 @@ def main():
 
     output["MemoryLookupKey"] += parse_memory_lookup("surbl-hashbl.txt", "surbl-hashbl")
     output["MemoryLookupKey"] += parse_memory_lookup("url_redirectors.txt", "url-redirectors")
+    output["MemoryLookupKey"] += parse_memory_lookup("trusted_domains.txt", "trusted-domains")
 
     output["HttpLookup"] = parse_http_lists()
 
