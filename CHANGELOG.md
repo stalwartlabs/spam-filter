@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2026-04-13
+
+### Added
+
+### Changed
+
+- Migrated rule format to v0.16+ JMAP object format.
+
+### Fixed
+
+
 ## [2.0.5] - 2025-12-16
 
 ### Added

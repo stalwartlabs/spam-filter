@@ -27,7 +27,9 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: spam-filter-rules.json.gz
+          files: |
+            spam-filter-rules.json.gz
+            spam-filter.toml
           draft: false
           prerelease: false
           generate_release_notes: true
