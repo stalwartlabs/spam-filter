@@ -2,25 +2,30 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1] - 2026-09-06
+
+### Added
+
+### Changed
+- Updated `DBL_SPAM` score from `6.5` to `4.5`.
+
+### Fixed
+
 ## [3.0.0] - 2026-04-13
 
 ### Added
 
 ### Changed
-
 - Migrated rule format to v0.16+ JMAP object format.
 
 ### Fixed
 
-
 ## [2.0.5] - 2025-12-16
 
 ### Added
-
 - `PROB_SPAM_*` and `PROB_HAM_*` scores.
 
 ### Changed
-
 - Update `SPAM_TRAP` score from `discard` to `15.0`.
 
 ### Fixed
