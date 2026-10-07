@@ -204,7 +204,7 @@ def parse_http_lists() -> list:
             "maxSize": limits.get("size", 0),
             "maxEntries": limits.get("entries", 0),
             "maxEntrySize": limits.get("entry-size", 0),
-            "refresh": entry.get("refresh", "0s"),
+            "refreshInterval": entry.get("refresh", "0s"),
             "retry": entry.get("retry", "0s"),
             "timeout": entry.get("timeout", "0s"),
         })
