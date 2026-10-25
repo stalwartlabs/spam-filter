@@ -29,7 +29,6 @@ jobs:
         with:
           files: |
             spam-filter-rules.json.gz
-            spam-filter.toml
           draft: false
           prerelease: false
           generate_release_notes: true

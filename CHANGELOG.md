@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.3] - 2026-10-25
+
+### Added
+- `AI_*` scores for the AI classifier categories and signals.
+- `MIME_LIMIT_EXCEEDED` and `URL_REDIRECTOR_INSECURE` tags.
+- `DKIM2_*` scores.
+- `DISPOSABLE_BCC` and `FREEMAIL_BCC` scores.
+
+### Changed
+- Replaced the `LLM_*` scores with the `AI_*` scores.
+- HTTP lookups use the `refreshInterval` property.
+
+### Fixed
+- Renamed `DISPOSABLE_REPLYTO` to `DISPOSABLE_REPLY_TO` to match the tag emitted by the server.
+
 ## [3.0.2] - 2026-09-21
 
 ### Added
