@@ -43,7 +43,7 @@ condition = [ { if = "contains(['x-ui-filterresults', 'x-ui-out-filterresults', 
 [rule.STWT_SPAM_FLAG]
 scope = "header"
 priority = 67
-condition = [ { if = "contains(['x-spam', 'x-spam-flag', 'x-spam-status'], name_lower) && (contains(value_lower, 'yes') || contains(value_lower, 'true') || contains(value_lower, 'spam'))", then = "'SPAM_FLAG'" },
+condition = [ { if = "contains(['x-spam', 'x-spam-flag', 'x-spam-status'], name_lower) && (starts_with(value_lower, 'yes') || starts_with(value_lower, 'true') || starts_with(value_lower, 'spam'))", then = "'SPAM_FLAG'" },
 			  { else = false } ]
 
 [rule.STWT_KLMS_SPAM]
