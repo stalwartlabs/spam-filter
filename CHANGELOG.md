@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.5] - 2026-11-27
+
+### Added
+- Scores for the QR code tags: `HAS_QR_CODE`, `QR_CODE_HTML`, `QR_CODE_NON_URL`, `QR_RCPT_IN_URL`, `QR_CODE_LURE` and `QR_CODE_SHORT_BODY` (stalwartlabs/stalwart#1034).
+- `HTML_IMAGE_ONLY` score.
+- `STWT_QR_CODE_SHORT_BODY` rule, for a QR code in a message with little or no text.
+- `STWT_QR_CODE_LURE` rule, for a QR code next to MFA, document signing, payroll or voicemail wording.
+
+### Changed
+
+### Fixed
+
 ## [3.0.4] - 2026-11-01
 
 ### Added

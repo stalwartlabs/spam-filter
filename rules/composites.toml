@@ -186,3 +186,15 @@ condition = [ { if = "!$HAS_LINK_TO_LARGE_IMG", then = "false" },
 			  { if = "$HTML_SHORT_2", then = "'HTML_SHORT_LINK_IMG_2'" },
 			  { if = "$HTML_SHORT_3", then = "'HTML_SHORT_LINK_IMG_3'" },
 			  { else = false } ]
+
+[rule.STWT_QR_CODE_SHORT_BODY]
+scope = "any"
+priority = 1031
+condition = [ { if = "$HAS_QR_CODE && ($HTML_IMAGE_ONLY || $HTML_SHORT_1 || $SINGLE_SHORT_PART)", then = "'QR_CODE_SHORT_BODY'" },
+			  { else = false } ]
+
+[rule.STWT_QR_CODE_LURE]
+scope = "any"
+priority = 1032
+condition = [ { if = "$HAS_QR_CODE && (is_intersect(['mfa', 'MFA', '2fa', '2FA', 'qr', 'QR', 'scan', 'Scan', 'SCAN', 'docusign', 'DocuSign', 'payroll', 'Payroll', 'voicemail', 'Voicemail'], body.words) || contains(subject, 'mfa') || contains(subject, '2fa') || contains(subject, 'authenticat') || contains(subject, 'scan') || contains(subject, 'docusign') || contains(subject, 'payroll') || contains(subject, 'voicemail'))", then = "'QR_CODE_LURE'" },
+			  { else = false } ]
